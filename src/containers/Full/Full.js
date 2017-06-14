@@ -8,11 +8,12 @@ import Footer from '../../components/Footer/';
 
 import Dashboard from '../../containers/Dashboard/'
 import Users from '../../containers/Users/'
-import Employers from '../../views/Employers/'
-import Jobs from '../../views/Jobs/'
+import Employers from '../../containers/Employers/'
+import Jobs from '../../containers/Jobs/'
 
 
 class Full extends Component {
+
   render() {
     return (
       <div className="app">

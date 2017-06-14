@@ -117,6 +117,7 @@ class Tables extends Component {
             showDeleteModal: true,
             userId: userId
         });
+        console.log(this.state.userId,"user id")
     }
 
     closeDeleteModal = () => {
@@ -198,6 +199,7 @@ class Tables extends Component {
             user : tmpUser,
             userId: user.id
         });
+
         this.openFormModal(formType);
     }
 
