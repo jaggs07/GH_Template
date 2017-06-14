@@ -43,7 +43,8 @@ class Header extends Component {
             <a className="nav-link navbar-toggler sidebar-toggler" onClick={this.sidebarToggle} href="#">&#9776;</a>
           </li>
         </ul>
-        <form className="form-inline px-4 d-md-down-none">
+
+        {/*<form className="form-inline px-4 d-md-down-none">
           <div className="input-group">
             <div className="input-group-btn">
               <button type="button" className="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -61,8 +62,12 @@ class Header extends Component {
               <button className="btn" type="button"><i className="fa fa-search"></i></button>
             </span>
           </div>
-        </form>
+        </form>*/}
+
+
         <ul className="nav navbar-nav ml-auto">
+
+          
           {/*<li className="nav-item d-md-down-none">
             <a className="nav-link" href="#"><i className="icon-bell"></i><span className="badge badge-pill badge-danger">5</span></a>
           </li>
@@ -72,6 +77,8 @@ class Header extends Component {
           <li className="nav-item d-md-down-none">
             <a className="nav-link" href="#"><i className="icon-location-pin"></i></a>
           </li>*/}
+
+
           <li className="nav-item dropdown">
             <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
               <a onClick={this.toggle} className="nav-link avatar" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded={this.state.dropdownOpen}>

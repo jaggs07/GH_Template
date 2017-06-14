@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom'
-import employersLogo from '../../public/employer.png';
-import usersLogo from '../../public/employer.png';
-import dashboardLogo from '../../public/employer.png';
-import jobsLogo from '../../public/employer.png';
 
 class Sidebar extends Component {
 
