@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import Cookie from 'universal-cookie';
-import Button from 'react-bootstrap/lib/Button';
 import _ from 'lodash';
-import Modal from 'react-bootstrap/lib/Modal';
 import NotificationSystem from 'react-notification-system';
 import Select from 'react-select';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 const cookies = new Cookie();
 
@@ -12,7 +11,7 @@ const ROOT_URL ='http://localhost:8090/api/';
 
 class Tables extends Component {
 
-      constructor(props) {
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -33,7 +32,7 @@ class Tables extends Component {
     componentWillMount = () => {
 
         var token = cookies.get('token');
-        this.props.onFetchUsers(token.token);
+        this.props.fetchUsers(token.token);
     }
 
      displayNotification(message, level = 'error') {
@@ -46,8 +45,8 @@ class Tables extends Component {
         });
     }
 
-    openFormModal = (e) => {
-        if(e.target.value === "updateUser"){
+    openFormModal = (formType) => {
+        if(formType === "updateUser"){
 
             this.setState({
                 showModal: true,
@@ -81,7 +80,7 @@ class Tables extends Component {
         return re.test(email)
     }
 
-        handleSaveUser = () => {
+    handleSaveUser = () => {
 
         var token = cookies.get('token');
 
@@ -108,16 +107,15 @@ class Tables extends Component {
         }else if(companyName.length === 0){
             this.displayNotification("Select Company");
         }else{
-            this.props.onCreateUser(this.state.user,token.token);
+            this.props.createUser(this.state.user,token.token);
             this.setState({ showModal: false});
         }
     }
 
-    openDeleteModal = (e) => {
-        console.log("pressed delete")
+    openDeleteModal = (userId) => {
         this.setState({
             showDeleteModal: true,
-            userId: e.target.value
+            userId: userId
         });
     }
 
@@ -129,7 +127,7 @@ class Tables extends Component {
 
     handleDeleteConfirmClick = () => {
         var token = cookies.get('token');
-        this.props.onRemoveUser(this.state.userId, token.token);
+        this.props.deleteUser(this.state.userId, token.token);
         this.setState ({
             showDeleteModal: false
         })
@@ -186,7 +184,7 @@ class Tables extends Component {
         });
     }
 
-    openUpdateUserModal = (user, e) => {
+    openUpdateUserModal = (user, formType) => {
 
         var tmpUser = this.state.user;
 
@@ -200,7 +198,7 @@ class Tables extends Component {
             user : tmpUser,
             userId: user.id
         });
-        this.openFormModal(e);
+        this.openFormModal(formType);
     }
 
     handleUpdateUser = () => {
@@ -211,12 +209,12 @@ class Tables extends Component {
 
         updatedUser.id = this.state.userId;
         _.merge(updatedUser, this.state.user);
-        this.props.onUpdateUser(updatedUser, token.token);
+        this.props.updateUser(updatedUser, token.token);
         this.setState({ showModal: false});
     }
 
 	getOptions = () => {
-    var token = cookies.get('token');
+        var token = cookies.get('token');
 
 		return fetch(ROOT_URL+'employer', {
 			method: 'GET',
@@ -240,9 +238,9 @@ class Tables extends Component {
         });
 	}
 
-  render() {
+    render() {
 
-     var notificationStyle = {
+        var notificationStyle = {
             NotificationItem: {
                 DefaultStyle: {
                     boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.1)',
@@ -256,12 +254,12 @@ class Tables extends Component {
             }
         }
 
-         var  button = null;
+        var  button = null;
 
         if(this.state.formType === "Create New User"){
-            button = <Button onClick={this.handleSaveUser} bsStyle="primary">Save</Button>
+            button = <Button color="primary" onClick={this.handleSaveUser} >Save</Button>
         }else{
-            button = <Button onClick={this.handleUpdateUser}  bsStyle="primary">Update</Button>
+            button = <Button color="primary" onClick={this.handleUpdateUser} >Update</Button>
         }
 
         var userList = this.props.data.data;
@@ -269,22 +267,30 @@ class Tables extends Component {
 
         if(typeof userList !== 'undefined' && userList.length >0){
 
-                    userDetailList = userList.map( (user, i) => {
+            userDetailList = userList.map( (user, i) => {
 
-                            var userObject = <tr key={i}>
-                                                <td >{ user.firstName }</td>
-                                                <td >{ user.lastName }</td>
-                                                <td >{ user.email }</td>
-                                                <td >{ user.companyName }</td>
+                var userObject = 
+                    
+                    <tr key={i}>
+                        <td >{ user.firstName }</td>
+                        <td >{ user.lastName }</td>
+                        <td >{ user.email }</td>
+                        <td >{ user.companyName }</td>
 
-                                                <td>
-                                                  <span title="Edit" value="updateUser" className="fa fa-pencil-square fa-lg mt-4" onClick={this.openUpdateUserModal.bind(this, user)}></span>&nbsp;
-                                                  <span title="Delete" className="fa fa-trash-o fa-lg mt-4" value={user.id} onClick={this.openDeleteModal}></span>
+                        <td>
+                            <span title="Edit" className="fa fa-pencil-square fa-lg mt-4" 
+                                    onClick={this.openUpdateUserModal.bind(this, user, "updateUser")}>
+                            </span>&nbsp;
 
-                                                </td>
-                                            </tr>
-                            return userObject;
-                   }, this);
+                            <span title="Delete" className="fa fa-trash-o fa-lg mt-4"  
+                                onClick={this.openDeleteModal.bind(this, user.id)}>
+                            </span>
+                        </td>
+                    </tr>
+
+                return userObject;
+
+            }, this);
         }
 
         var resultDisplay = null;
@@ -293,52 +299,126 @@ class Tables extends Component {
 
             resultDisplay =
 
-                    <table className="table">
-                        <thead>
-                        <tr>
-                            <th >First Name</th>
-                            <th >Last Name </th>
-                            <th >Email </th>
-                            <th >Company Name </th>
-                            <th ></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                         {userDetailList}
-                        </tbody>
+                <table className="table table-striped">
+                    <thead>
+                    <tr>
+                        <th >First Name</th>
+                        <th >Last Name </th>
+                        <th >Email </th>
+                        <th >Company Name </th>
+                        <th ></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {userDetailList}
+                    </tbody>
 
-                    </table>
-        }else{
-
-            resultDisplay =
-
-                <div className="user-container">
-                    <div className="add-user-button">
-                        <button value="addUser" type="button" onClick={ this.openFormModal } className="btn btn-primary add-user"><i className="glyphicon glyphicon-plus" />Add User</button>
-                    </div>
-                </div>
+                </table>
         }
 
   
     return (
-      <div className="animated fadeIn">
-          <NotificationSystem ref="notificationSystem" style={notificationStyle}/>
-        <div className="row">
 
-          <div className="col-lg-12">
-            <div className="card">
+        <div className="animated fadeIn">
+
+            <NotificationSystem ref="notificationSystem" style={notificationStyle}/>
+
+            <Modal isOpen={this.state.showModal} onHide={this.closeFormModal} toggle={this.closeFormModal} className={'modal-info ' + this.props.className}>
+                <ModalHeader toggle={this.closeFormModal}>{this.state.formType}</ModalHeader>
+                <ModalBody>
+                <div className="form-wrapper">
+
+                        <div className="form-group row">
+                            <label htmlFor="first-name-" className="col-sm-3 col-form-label">First
+                                Name</label>
+                            <div className="col-sm-9 first-name-field">
+                                <input className="form-control" required="required"
+                                       onChange={ this.handleChangeFirstName }
+                                       value={this.state.user.firstName} type="text" id="firstName"/>
+                            </div>
+                        </div>
+
+                        <div className="form-group row">
+                            <label htmlFor="last-name" className="col-sm-3 col-form-label">Last Name</label>
+                            <div className="col-sm-9 last-name-field">
+                                <input className="form-control" onChange={ this.handleChangeLastName }
+                                       value={this.state.user.lastName} type="text" id="lastName"/>
+                            </div>
+                        </div>
+
+                        <div className="form-group row">
+                            <label htmlFor="email" className="col-sm-3 col-form-label">Email
+                                </label>
+                            <div className="col-sm-9 email-field">
+                                <input className="form-control" onChange={ this.handleChangeEmail }
+                                       value={this.state.user.email} type="text" id="email"/>
+                            </div>
+                        </div>
+
+                        <div className="form-group row">
+                            <label htmlFor="linkedin-page" className="col-sm-3 col-form-label">Password
+                                </label>
+                            <div className="col-sm-9 password-field">
+                                <input className="form-control" onChange={ this.handleChangePassword }
+                                       value={this.state.user.password} type="text" id="password"/>
+                            </div>
+                        </div>
+
+                        <div className="form-group row">
+                            <label htmlFor="user-type" className="col-sm-3 col-form-label">Employer</label>
+                            <div className="col-sm-9 account-type">
+
+                                <Select.Async
+                                    name="form-field-name"
+                                    value={this.state.user.companyName}
+                                    loadOptions={this.getOptions}
+                                    onChange={this.handleChangeCompanyName}
+                                    noResultsText="No matching company..."
+                                    clearable={true}
+                                    resetValue={true}
+                                />
+
+                            </div>
+                        </div>
+                    </div>
+                </ModalBody>
+                <ModalFooter>
+                {button}
+                <Button color="secondary" onClick={this.closeFormModal}>Cancel</Button>
+                </ModalFooter>
+            </Modal>    
+
+            <Modal isOpen={this.state.showDeleteModal} toggle={this.closeDeleteModal} className={'modal-sm ' + this.props.className}>
+                <ModalBody>
+                    Are you sure you want to delete this user?<br/>
+                    This can not be undone.
+                </ModalBody>
+                <ModalFooter>
+                    <Button color="primary" onClick={this.handleDeleteConfirmClick}>Delete</Button>{' '}
+                    <Button color="secondary" onClick={this.closeDeleteModal}>Cancel</Button>
+                </ModalFooter>
+            </Modal>         
+
+            <div className="row">
+
+                <div className="col-lg-12">
+                    <div className="card">
               
-              <div className="card-header">
-                <i className="fa fa-align-justify"></i> Users Table
-              </div>
+                        <div className="card-header">
+                            <i className="fa fa-align-justify"></i> Users Table
+                            <button type="button" className="btn btn-primary table-add-button"
+                                onClick={ this.openFormModal.bind(this, "addUser") } >
+                                <i className="glyphicon glyphicon-plus" />Add User
+                            </button>
+                        </div>
 
-              <div className="card-block">
-                {resultDisplay}
-              </div>
+                        <div className="card-block">
+                            {resultDisplay}
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
 
     )
   }

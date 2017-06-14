@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { fetchUsers } from '../../actions/userActions';
+import { fetchUsers, createUser, updateUser, deleteUser } from '../../actions/userActions';
 
 import Users from '../../views/Users/';
 
@@ -12,8 +12,17 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         
-      onFetchUsers: (token) => {
+        createUser: (user, token) => {
+            dispatch(createUser(user, token));
+        },
+        fetchUsers: (token) => {
             dispatch(fetchUsers(token));
+        },
+        updateUser: (user, token) => {
+          dispatch(updateUser(user,token));
+        },
+        deleteUser: (id, token) => {
+          dispatch(deleteUser(id,token));
         }
     }
 }

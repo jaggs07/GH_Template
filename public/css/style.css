@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /**
  * GenesisUI - Bootstrap 4 Admin Template
  * @version v1.8.4
@@ -5,7 +6,6 @@
  * Copyright (c) 2017 creativeLabs Łukasz Holeczek
  * @license Commercial
  */
-@charset "UTF-8";
 /*! normalize.css v5.0.0 | MIT License | github.com/necolas/normalize.css */
 html {
   font-family: sans-serif;
@@ -12576,21 +12576,17 @@ base-chart.chart {
   background-color: #34383c;
   border-bottom: 1px solid #34383c; }
   .app-header.navbar .navbar-brand {
-
-
-
     display: inline-block;
     width: 220px;
     height: 50px;
     padding: 0.5rem 1rem;
     margin-right: 0;
-    background-color: #b3c3d3;
+    background-color: #1c1f21;
     background-image: url("../img/logo.png");
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 90px auto;
-    border-bottom: 1px solid #1c1f21; 
-    }
+    border-bottom: 1px solid #1c1f21; }
   .app-header.navbar .navbar-nav {
     flex-direction: row;
     align-items: center; }
@@ -14172,3 +14168,9 @@ body:not(.top-nav) .sidebar .nav .nav-item .nav-link i, body:not(.top-nav) .side
   line-height: 45px;
   color: #9fabb8;
   border-right: 1px solid #dbdee0; }
+
+.table-add-button {
+  float: right; }
+
+.table-add-button {
+  float: right; }
