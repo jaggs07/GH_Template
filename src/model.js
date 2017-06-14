@@ -1,9 +1,4 @@
 export const INITIAL_STATE = {
-    fetch: {
-        loading:false,
-        error:{}
-    },
-
     client: {
         data:[],
         loading:false,

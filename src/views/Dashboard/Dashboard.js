@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { Bar, Line } from 'react-chartjs-2';
 import { Dropdown, DropdownMenu, DropdownItem, Progress } from 'reactstrap';
+import { hashHistory } from 'react-router'
+import Cookie from 'universal-cookie';
+
+const cookies = new Cookie();
 
 const brandPrimary =  '#36a9e1';
 const brandSuccess =  '#4dbd74';
@@ -277,6 +281,19 @@ class Dashboard extends Component {
       dropdownOpen: false
     };
   }
+
+     componentWillMount = () => {
+
+        var token = cookies.get('token');
+
+        if(typeof token !== 'undefined'){
+
+            this.props.userDetail(token.token);
+            
+        }else{
+            hashHistory.push('/login');
+        }
+    }
 
   toggle() {
     this.setState({

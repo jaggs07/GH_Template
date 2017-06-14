@@ -6,7 +6,7 @@ import Sidebar from '../../components/Sidebar/';
 import Breadcrumb from '../../components/Breadcrumb/';
 import Footer from '../../components/Footer/';
 
-import Dashboard from '../../views/Dashboard/'
+import Dashboard from '../../containers/Dashboard/'
 import Users from '../../views/Users/'
 import Employers from '../../views/Employers/'
 import Jobs from '../../views/Jobs/'

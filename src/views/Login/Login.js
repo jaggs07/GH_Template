@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Cookie from 'universal-cookie';
 import NotificationSystem from 'react-notification-system';
+import { hashHistory } from 'react-router'
 
 const cookies = new Cookie();
 
@@ -20,12 +21,13 @@ class Login extends Component {
 
         if (nextProps.user.data.token) {
             cookies.set('token', { 'email': this.state.email, 'token': nextProps.user.data.token });
-            this.props.router.push('/');
+            // this.props.router.push('/');
+            hashHistory.push('/')
 
         }else if (nextProps.user.error.error){
 
             this.displayNotification(nextProps.user.error.error);
-            this.porps.resetUserData();
+            this.props.resetUserData();
         }
     }
 
@@ -60,9 +62,7 @@ class Login extends Component {
 
 
     handleSubmit = (e) => {
-        console.log(this.state.email + this.state.password ,"submit")
         e.preventDefault();
-        // this.displayNotification('Enter email');
         if (this.state.email.trim().length === 0) {
             this.displayNotification('Enter email');
         }else if (!this.validateEmail(this.state.email)) {
@@ -78,9 +78,6 @@ class Login extends Component {
         }
     }
 
-    componentWillMount(){
-        this.props.onTest();
-    }
   render() {
 
        var notificationStyle = {
