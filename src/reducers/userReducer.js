@@ -4,7 +4,7 @@ import {
     REGISTER, REGISTER_SUCCESS, REGISTER_FAILURE,
     LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE,
     USER_INFO, USER_INFO_SUCCESS, USER_INFO_FAILURE,
-    RESET_USER
+    RESET_USER, RESET_USER_DATA
 } from '../actions/userActions'
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -112,6 +112,22 @@ const userReducer = (state = INITIAL_STATE, action) => {
             };
             break;
 
+        case RESET_USER_DATA:
+          state = {
+            ...state,
+              user: {
+                  ...state.user,
+                  loading: false,
+                  data: {},
+                  error: {},
+                  detail: {},
+                  updateSuccess: false,
+                  passwordChangeSuccess: false
+
+              }
+          };
+        break;
+
         case RESET_USER:
           state = {
             ...state,
@@ -132,5 +148,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
     }
     return state;
 };
+
+
 
 export default userReducer;;

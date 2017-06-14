@@ -1,5 +1,5 @@
 export const INITIAL_STATE = {
-    client: {
+    employer: {
         data:[],
         loading:false,
         error:{}

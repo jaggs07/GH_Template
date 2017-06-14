@@ -13,6 +13,8 @@ export const USER_INFO_FAILURE = "USER_INFO_FAILURE"
 
 export const RESET_USER = "RESET_USER";
 
+export const RESET_USER_DATA = "RESET_USER_DATA";
+
 const ROOT_URL = 'http://localhost:8090/api/';
 
 export function register(firstName, lastName, email, password, accountType) {
@@ -155,6 +157,15 @@ export function resetUser() {
   return function (dispatch) {
 
     dispatch({type: RESET_USER, loading: false, updateSuccess: false, passwordChangeSuccess: false, error: {}})
+
+  }
+}
+
+export function resetUserData() {
+
+  return function (dispatch) {
+
+    dispatch({type: RESET_USER_DATA})
 
   }
 }

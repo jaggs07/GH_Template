@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom'
 
-import Header from '../../components/Header/';
+import Header from '../../containers/Header/';
 import Sidebar from '../../components/Sidebar/';
 import Breadcrumb from '../../components/Breadcrumb/';
 import Footer from '../../components/Footer/';

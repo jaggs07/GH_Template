@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
+import { hashHistory } from 'react-router'
+import Cookie from 'universal-cookie';
+
+const cookies = new Cookie();
 
 class Header extends Component {
 
@@ -11,6 +15,22 @@ class Header extends Component {
       dropdownOpen: false
     };
   }
+
+    handleLogoutClick = (e) => {
+        console.log("logout")
+        e.preventDefault();
+
+        this.props.resetUserData();
+        this.props.resetJobsData();
+        this.props.resetEmployerData();
+        
+        var token = cookies.get('token');
+
+        if (token) {
+            cookies.remove('token')
+        }
+        hashHistory.push('/login')
+    }  
 
   toggle() {
     this.setState({
@@ -90,7 +110,7 @@ class Header extends Component {
                 <DropdownItem header className="text-center"><strong>Settings</strong></DropdownItem>
                 <DropdownItem><i className="fa fa-wrench"></i> Settings</DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem><i className="fa fa-lock"></i> Logout</DropdownItem>
+                <DropdownItem onClick={this.handleLogoutClick}><i className="fa fa-lock"></i> Logout</DropdownItem>
 
               </DropdownMenu>
             </Dropdown>
