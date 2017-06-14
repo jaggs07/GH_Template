@@ -5,6 +5,7 @@ import Modal from 'react-bootstrap/lib/Modal';
 import Button from 'react-bootstrap/lib/Button';
 import _ from 'lodash';
 import Cookie from 'universal-cookie';
+import { hashHistory } from 'react-router'
 
 const cookies = new Cookie();
 
@@ -235,16 +236,12 @@ class Tables extends Component {
     }
 
     handleCompanyNameClick = (boardToken,companyName) =>{
-        this.props.onStateChange(companyName,boardToken);
-        this.props.selectDashboardTab();
-        this.props.router.push('/dashboard')
+        hashHistory.push('/dashboard')
     }
     
     handleTotalJobsClick = (boardToken,companyName) => {
         this.props.resetJobsData();
-        this.props.onStateChange(companyName,boardToken);
-        this.props.selectJobTab();
-        this.props.router.push('/jobs')
+        hashHistory.push('/jobs')
     }
 
   render() {
