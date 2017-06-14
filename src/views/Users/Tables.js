@@ -119,6 +119,7 @@ class Tables extends Component {
             showDeleteModal: true,
             userId: e.target.value
         });
+        console.log(this.state.userId,"user id")
     }
 
     closeDeleteModal = () => {
@@ -200,6 +201,8 @@ class Tables extends Component {
             user : tmpUser,
             userId: user.id
         });
+                console.log(this.state.userId,"user id")
+
         this.openFormModal(e);
     }
 
@@ -323,6 +326,92 @@ class Tables extends Component {
     return (
       <div className="animated fadeIn">
           <NotificationSystem ref="notificationSystem" style={notificationStyle}/>
+            <Modal show={this.state.showModal} onHide={this.closeFormModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>{this.state.formType}</Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body>
+                    <div className="form-wrapper">
+
+                        <div className="form-group row">
+                            <label htmlFor="first-name-" className="col-sm-3 col-form-label">First
+                                Name</label>
+                            <div className="col-sm-9 first-name-field">
+                                <input className="form-control" required="required"
+                                       onChange={ this.handleChangeFirstName }
+                                       value={this.state.user.firstName} type="text" id="firstName"/>
+                            </div>
+                        </div>
+
+                        <div className="form-group row">
+                            <label htmlFor="last-name" className="col-sm-3 col-form-label">Last Name</label>
+                            <div className="col-sm-9 last-name-field">
+                                <input className="form-control" onChange={ this.handleChangeLastName }
+                                       value={this.state.user.lastName} type="text" id="lastName"/>
+                            </div>
+                        </div>
+
+                        <div className="form-group row">
+                            <label htmlFor="email" className="col-sm-3 col-form-label">Email
+                                </label>
+                            <div className="col-sm-9 email-field">
+                                <input className="form-control" onChange={ this.handleChangeEmail }
+                                       value={this.state.user.email} type="text" id="email"/>
+                            </div>
+                        </div>
+
+                        <div className="form-group row">
+                            <label htmlFor="linkedin-page" className="col-sm-3 col-form-label">Password
+                                </label>
+                            <div className="col-sm-9 password-field">
+                                <input className="form-control" onChange={ this.handleChangePassword }
+                                       value={this.state.user.password} type="text" id="password"/>
+                            </div>
+                        </div>
+
+                        <div className="form-group row">
+                            <label htmlFor="user-type" className="col-sm-3 col-form-label">Employer</label>
+                            <div className="col-sm-9 account-type">
+
+                                <Select.Async
+                                    name="form-field-name"
+                                    value={this.state.user.companyName}
+                                    loadOptions={this.getOptions}
+                                    onChange={this.handleChangeCompanyName}
+                                    noResultsText="No matching company..."
+                                    clearable={true}
+                                    resetValue={true}
+                                />
+
+                            </div>
+                        </div>
+                    </div>
+                </Modal.Body>
+
+                <Modal.Footer>
+                    <Button onClick={this.closeFormModal} bsStyle="primary">Cancel</Button>
+
+                    {button}
+
+                </Modal.Footer>
+
+            </Modal>
+
+            <Modal bsSize="small" show={this.state.showDeleteModal} onHide={this.closeDeleteModal}>
+                <Modal.Header closeButton>
+                    <div className="Delete-popup-container">
+
+                        <div className="Delete-popup-content">
+                            <strong>Are you sure you want to delete this item?</strong>
+                            This can not be undone.
+                        </div>
+                    </div>
+                </Modal.Header>
+                <Modal.Footer>
+                    <Button onClick={this.handleDeleteConfirmClick} bsStyle="primary">Delete Item</Button>
+                </Modal.Footer>
+            </Modal>
         <div className="row">
 
           <div className="col-lg-12">

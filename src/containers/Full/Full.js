@@ -8,7 +8,7 @@ import Footer from '../../components/Footer/';
 
 import Dashboard from '../../containers/Dashboard/'
 import Users from '../../containers/Users/'
-import Employers from '../../views/Employers/'
+import Employers from '../../containers/Employers/'
 import Jobs from '../../views/Jobs/'
 
 
