@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 
 class Tables extends Component {
+
+  componentWillMount(){
+    console.log(this.props.data,"Employers tabel");
+
+  }
+
   render() {
     return (
       <div className="animated fadeIn">
