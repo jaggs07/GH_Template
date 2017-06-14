@@ -1,11 +1,330 @@
 import React, { Component } from 'react';
+import Cookie from 'universal-cookie';
+import Button from 'react-bootstrap/lib/Button';
+import _ from 'lodash';
+import Modal from 'react-bootstrap/lib/Modal';
+import NotificationSystem from 'react-notification-system';
+import Select from 'react-select';
+
+const cookies = new Cookie();
+
+const ROOT_URL ='http://localhost:8090/api/';
 
 class Tables extends Component {
+
+      constructor(props) {
+        super(props);
+
+        this.state = {
+            showModal : false,
+            showDeleteModal: false,
+            userId: '',
+            formType: '',
+            user : {
+                firstName: '',
+                lastName: '',
+                email: '',
+                password: '',
+                companyName: ''
+            }
+        }
+    }
+
+    componentWillMount = () => {
+
+        var token = cookies.get('token');
+        this.props.onFetchUsers(token.token);
+    }
+
+     displayNotification(message, level = 'error') {
+        this.refs.notificationSystem.addNotification({
+            message: message,
+            level: level,
+            dismissible: false,
+            autoDismiss: 3,
+            position: 'tc'
+        });
+    }
+
+    openFormModal = (e) => {
+        if(e.target.value === "updateUser"){
+
+            this.setState({
+                showModal: true,
+                formType: "Update User"
+            });
+        }else{
+
+            this.setState({
+                showModal: true,
+                formType: "Create New User",
+                user : {
+                    firstName: '',
+                    lastName: '',
+                    email: '',
+                    password: '',
+                    companyName: ''
+                }
+            });
+        }
+    }
+
+    closeFormModal = () => {
+        this.setState({
+            showModal: false,
+
+        });
+    }
+
+    validateEmail(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email)
+    }
+
+        handleSaveUser = () => {
+
+        var token = cookies.get('token');
+
+        var firstName = this.state.user.firstName;
+        var lastName = this.state.user.lastName;
+        var email = this.state.user.email;
+        var password = this.state.user.password;
+        var companyName = this.state.user.companyName;
+
+        if(firstName === ''){
+            this.displayNotification("Enter First Name");
+        }else if(lastName.length === 0){
+            this.displayNotification("Enter Last Name");
+        }else if(email.length === 0){
+            this.displayNotification("Enter Email");
+        }else if (!this.validateEmail(email)) {
+            this.displayNotification("Enter valid Email");
+        } else if(password.length === 0){
+            this.displayNotification("Enter Password");
+        }else if(password.length < 6){
+            this.displayNotification("Password must contain minimum 6 characters");
+        }else if (password.search(/[0-9]/) < 0) {
+            this.displayNotification("Password must contain minimum single digit characters");
+        }else if(companyName.length === 0){
+            this.displayNotification("Select Company");
+        }else{
+            this.props.onCreateUser(this.state.user,token.token);
+            this.setState({ showModal: false});
+        }
+    }
+
+    openDeleteModal = (e) => {
+        console.log("pressed delete")
+        this.setState({
+            showDeleteModal: true,
+            userId: e.target.value
+        });
+    }
+
+    closeDeleteModal = () => {
+        this.setState({
+            showDeleteModal: false,
+        });
+    }
+
+    handleDeleteConfirmClick = () => {
+        var token = cookies.get('token');
+        this.props.onRemoveUser(this.state.userId, token.token);
+        this.setState ({
+            showDeleteModal: false
+        })
+    }
+
+    handleChangeFirstName = (e) => {
+
+        var user = this.state.user;
+
+        user.firstName = e.target.value;
+        this.setState({
+            user : user
+        });
+    }
+
+    handleChangeLastName = (e) => {
+
+        var user = this.state.user;
+
+        user.lastName = e.target.value;
+        this.setState({
+            user : user
+        });
+    }
+
+    handleChangeEmail = (e) => {
+
+        var user = this.state.user;
+
+        user.email = e.target.value;
+        this.setState({
+            user : user
+
+        });
+    }
+
+    handleChangePassword = (e) => {
+        var user = this.state.user;
+
+        user.password = e.target.value;
+        this.setState({
+            user : user
+
+        });
+    }
+
+    handleChangeCompanyName = (e) => {
+
+        var user = this.state.user;
+        user.companyName = e.value;
+
+        this.setState({
+            user : user
+        });
+    }
+
+    openUpdateUserModal = (user, e) => {
+
+        var tmpUser = this.state.user;
+
+        tmpUser.firstName = user.firstName;
+        tmpUser.lastName = user.lastName;
+        tmpUser.email = user.email;
+        tmpUser.password = user.password;
+        tmpUser.companyName = user.companyName;
+
+        this.setState({
+            user : tmpUser,
+            userId: user.id
+        });
+        this.openFormModal(e);
+    }
+
+    handleUpdateUser = () => {
+
+        var token = cookies.get('token');
+
+        var updatedUser = {};
+
+        updatedUser.id = this.state.userId;
+        _.merge(updatedUser, this.state.user);
+        this.props.onUpdateUser(updatedUser, token.token);
+        this.setState({ showModal: false});
+    }
+
+	getOptions = () => {
+    var token = cookies.get('token');
+
+		return fetch(ROOT_URL+'employer', {
+			method: 'GET',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+				'x-access-token': token.token
+			},
+        })
+        .then((response) => response.json())
+        .then((responseData) => {
+
+            var sortedCompany = _.sortBy(responseData, [employer => employer.companyName.toLowerCase()], ['asc']);
+
+            var company = sortedCompany.map( (item) => ({ value: item.companyName, label: item.companyName }));
+
+            return { options: company };
+        })
+        .catch((error) => {
+            return {options : [{ value: 'Company fetch error...', label: 'Company fetch error...' }]}
+        });
+	}
+
   render() {
+
+     var notificationStyle = {
+            NotificationItem: {
+                DefaultStyle: {
+                    boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.1)',
+                    borderRadius: '3px',
+                },
+                error: {
+                    border: 'none',
+                    backgroundColor: '#d73b41',
+                    color: '#fff'
+                }
+            }
+        }
+
+         var  button = null;
+
+        if(this.state.formType === "Create New User"){
+            button = <Button onClick={this.handleSaveUser} bsStyle="primary">Save</Button>
+        }else{
+            button = <Button onClick={this.handleUpdateUser}  bsStyle="primary">Update</Button>
+        }
+
+        var userList = this.props.data.data;
+        var userDetailList = [];
+
+        if(typeof userList !== 'undefined' && userList.length >0){
+
+                    userDetailList = userList.map( (user, i) => {
+
+                            var userObject = <tr key={i}>
+                                                <td >{ user.firstName }</td>
+                                                <td >{ user.lastName }</td>
+                                                <td >{ user.email }</td>
+                                                <td >{ user.companyName }</td>
+
+                                                <td>
+                                                  <span title="Edit" value="updateUser" className="fa fa-pencil-square fa-lg mt-4" onClick={this.openUpdateUserModal.bind(this, user)}></span>&nbsp;
+                                                  <span title="Delete" className="fa fa-trash-o fa-lg mt-4" value={user.id} onClick={this.openDeleteModal}></span>
+
+                                                </td>
+                                            </tr>
+                            return userObject;
+                   }, this);
+        }
+
+        var resultDisplay = null;
+
+        if ( userDetailList.length > 0) {
+
+            resultDisplay =
+
+                    <table className="table">
+                        <thead>
+                        <tr>
+                            <th >First Name</th>
+                            <th >Last Name </th>
+                            <th >Email </th>
+                            <th >Company Name </th>
+                            <th ></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                         {userDetailList}
+                        </tbody>
+
+                    </table>
+        }else{
+
+            resultDisplay =
+
+                <div className="user-container">
+                    <div className="add-user-button">
+                        <button value="addUser" type="button" onClick={ this.openFormModal } className="btn btn-primary add-user"><i className="glyphicon glyphicon-plus" />Add User</button>
+                    </div>
+                </div>
+        }
+
+  
     return (
       <div className="animated fadeIn">
-
+          <NotificationSystem ref="notificationSystem" style={notificationStyle}/>
         <div className="row">
+
           <div className="col-lg-12">
             <div className="card">
               
@@ -14,101 +333,11 @@ class Tables extends Component {
               </div>
 
               <div className="card-block">
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th>First Name</th>
-                      <th>Last Name</th>
-                      <th>Email</th>
-                      <th>Comapny Name</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Micheal</td>
-                      <td>Owen</td>
-                      <td>micheal@gmail.com</td>
-                      <td>fusemachines</td>
-                      <td>
-                        <span className="badge badge-primary">Edit</span>&nbsp;
-                        <span className="badge badge-primary">Delete</span>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <td>Micheal</td>
-                      <td>Owen</td>
-                      <td>micheal@gmail.com</td>
-                      <td>fusemachines</td>
-                      <td>
-                        <span className="badge badge-primary">Edit</span>&nbsp;
-                        <span className="badge badge-primary">Delete</span>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <td>Micheal</td>
-                      <td>Owen</td>
-                      <td>micheal@gmail.com</td>
-                      <td>fusemachines</td>
-                      <td>
-                        <span className="badge badge-primary">Edit</span>&nbsp;
-                        <span className="badge badge-primary">Delete</span>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <td>Micheal</td>
-                      <td>Owen</td>
-                      <td>micheal@gmail.com</td>
-                      <td>fusemachines</td>
-                      <td>
-                        <span className="badge badge-primary">Edit</span>&nbsp;
-                        <span className="badge badge-primary">Delete</span>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <td>Micheal</td>
-                      <td>Owen</td>
-                      <td>micheal@gmail.com</td>
-                      <td>fusemachines</td>
-                      <td>
-                        <span className="badge badge-primary">Edit</span>&nbsp;
-                        <span className="badge badge-primary">Delete</span>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <td>Micheal</td>
-                      <td>Owen</td>
-                      <td>micheal@gmail.com</td>
-                      <td>fusemachines</td>
-                      <td>
-                        <span className="badge badge-primary">Edit</span>&nbsp;
-                        <span className="badge badge-primary">Delete</span>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                {/*<ul className="pagination">
-                  <li className="page-item"><a className="page-link" href="#">Prev</a></li>
-                  <li className="page-item active">
-                    <a className="page-link" href="#">1</a>
-                  </li>
-                  <li className="page-item"><a className="page-link" href="#">2</a></li>
-                  <li className="page-item"><a className="page-link" href="#">3</a></li>
-                  <li className="page-item"><a className="page-link" href="#">4</a></li>
-                  <li className="page-item"><a className="page-link" href="#">Next</a></li>
-                </ul>*/}
+                {resultDisplay}
               </div>
             </div>
           </div>
         </div>
-
-        
-
       </div>
 
     )

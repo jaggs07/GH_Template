@@ -11,6 +11,10 @@ export const USER_INFO = "USER_INFO"
 export const USER_INFO_SUCCESS = "USER_INFO_SUCCESS"
 export const USER_INFO_FAILURE = "USER_INFO_FAILURE"
 
+export const FETCH_USERS = "FETCH_USERS";
+export const FETCH_USERS_SUCCESS = "FETCH_USERS_SUCCESS";
+export const FETCH_USERS_FAILURE = "FETCH_USERS_FAILURE";
+
 export const RESET_USER = "RESET_USER";
 
 export const RESET_USER_DATA = "RESET_USER_DATA";
@@ -149,6 +153,49 @@ export function loginFailure(error) {
     return {
         type: LOGIN_FAILURE, loading: false,
         error: error
+    };
+}
+
+export function fetchUsers(token) {
+
+    return function (dispatch) {
+
+        dispatch({type: FETCH_USERS, loading: true})
+
+        return fetch(ROOT_URL+'user', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'x-access-token': token
+            },
+        })
+            .then((response) => response.json())
+            .then((responseData) => {
+                dispatch(fetchUsersSuccess(responseData))
+            })
+            .catch((error) => {
+                dispatch(fetchUsersFailure(error))
+            });
+    }
+}
+
+export function fetchUsersSuccess(users) {
+
+    return function (dispatch) {
+
+        if (users.length > 0) {
+
+            dispatch({type: FETCH_USERS_SUCCESS, data: users, loading: false})
+        } else {
+            dispatch({type: FETCH_USERS_FAILURE, data: users, loading: false})
+        }
+    }
+}
+
+export function fetchUsersFailure(error) {
+    return {
+        type: FETCH_USERS_FAILURE, loading: false
     };
 }
 

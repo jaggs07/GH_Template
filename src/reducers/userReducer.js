@@ -4,6 +4,7 @@ import {
     REGISTER, REGISTER_SUCCESS, REGISTER_FAILURE,
     LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE,
     USER_INFO, USER_INFO_SUCCESS, USER_INFO_FAILURE,
+    FETCH_USERS, FETCH_USERS_SUCCESS, FETCH_USERS_FAILURE,
     RESET_USER, RESET_USER_DATA
 } from '../actions/userActions'
 
@@ -108,6 +109,38 @@ const userReducer = (state = INITIAL_STATE, action) => {
                     ...state.user,
                     error: action.error,
                     loading: action.loading
+                }
+            };
+            break;
+
+          case FETCH_USERS:
+            state = {
+                ...state,
+                user: {
+                    ...state.user,
+                    loading: action.loading
+                }
+            };
+            break;
+
+        case FETCH_USERS_SUCCESS:
+            state = {
+                ...state,
+                user: {
+                    ...state.user,
+                    data: action.data,
+                    loading: action.loading
+                }
+            };
+            break;
+
+        case FETCH_USERS_FAILURE:
+            state = {
+                ...state,
+                user: {
+                    ...state.user,
+                    loading: action.loading,
+                    error: action.error
                 }
             };
             break;
