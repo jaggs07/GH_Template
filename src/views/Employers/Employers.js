@@ -177,7 +177,7 @@ class Tables extends Component {
 
     handleAccountTypeChange = (e) => {
         var employer = this.state.employer;
-        employer.accountType = e;
+        employer.accountType = e.value;
 
         this.setState({
             employer : employer
@@ -186,7 +186,7 @@ class Tables extends Component {
 
     handleATSTypeChange = (e) => {
         var employer = this.state.employer;
-        employer.atsType = e;
+        employer.atsType = e.value;
         
         this.setState({
             employer : employer
@@ -269,17 +269,6 @@ class Tables extends Component {
             }
         }
 
-        var addEmployerButton = null;
-
-        if(this.props.user.detail.superUser === 1){
-
-            addEmployerButton = <span className="add-employer-employer">
-                                    <button value="addEmployer" type="button" onClick={ this.openFormModal } className="btn btn-primary add-employer">
-                                        <i className="glyphicon glyphicon-plus" /> Add Employer
-                                    </button>
-                                </span>
-        }
-
         var  button = null;
 
         if(this.state.formType === "Create New Employer"){
@@ -297,7 +286,7 @@ class Tables extends Component {
             employerDetailList = employerList.map( (employer, i) => {
 
                 var employerObject = 
-                    <tr key={i} className="header">
+                    <tr key={i}>
 
                         <td >
                             <div 
@@ -327,19 +316,30 @@ class Tables extends Component {
                             </div>
                         </td>
                         <td>
-                            
-                            <button title="Delete" type="button" className="btn btn-danger"
-                                onClick={ this.openDeleteModal.bind(this, employer.id) } >
-                                <i className="fa fa-trash-o fa-lg" />
+                             <button 
+                                title="Delete" 
+                                type="button" 
+                                className="btn btn-danger btn-sm"
+                                onClick={ this.openDeleteModal.bind(this, employer.id) }>
+                                <i className="fa fa-trash-o fa-sm" />
                             </button>
-                            <button title="Refresh" type="button" className="btn btn-info"
+
+                            <button 
+                                title="Refresh" 
+                                type="button" 
+                                className="btn btn-primary btn-sm"
                                 onClick={ this.handleRefresh.bind(this, employer.id) } >
-                                <i className="fa fa-refresh fa-lg" />
+                                <i className="fa fa-refresh fa-sm" />
                             </button>
-                            <button title="Update" type="button" className="btn btn-info"
-                                onClick={ this.openUpdateEmployerModal.bind(this, employer, "updateEmployer") } >
-                                <i className="fa fa-pencil-square fa-lg" />
-                            </button>
+                           
+                            <button 
+                                title="Update" 
+                                type="button" 
+                                className="btn btn-primary btn-sm"
+                                onClick={ this.openUpdateEmployerModal.bind(this, employer, "updateEmployer") }>
+                                <i className="fa fa-pencil fa-sm" />
+                            </button>  
+
                         </td>
                     </tr>
 
@@ -347,12 +347,22 @@ class Tables extends Component {
             }, this);
         }
 
+        var addRefreshButton = null;
+
+        if(employerDetailList.length > 0){
+
+            addRefreshButton = <button type="button" className="btn btn-primary table-refresh-button"
+                                        onClick={ this.handleRefreshAllClick } >
+                                    <i className="fa fa-refresh fa-lg" />&nbsp; Refresh All
+                                </button>
+        } 
+
         var resultDisplay = null;
 
         if ( employerDetailList.length > 0) {
 
             resultDisplay = 
-                        <table className="table">
+                        <table className="table table-striped">
                             <thead>
                             <tr >
                                 <th >Company </th>
@@ -487,10 +497,14 @@ class Tables extends Component {
                 
                         <div className="card-header">
                             <i className="fa fa-align-justify"></i> Employers Table
-                            <button type="button" className="btn btn-primary table-add-button"
-                                    onClick={ this.openFormModal.bind(this, "addEmployer") } >
-                                <i className="fa fa-plus fa-lg" />&nbsp; Add Employer
-                            </button>
+                                {addRefreshButton}
+                                
+                                <button type="button" className="btn btn-primary table-add-button"
+                                        onClick={ this.openFormModal.bind(this, "addEmployer") } >
+                                    <i className="fa fa-plus fa-lg" />&nbsp; Add Employer
+                                </button>
+
+                            
                         </div>
 
                         <div className="card-block">

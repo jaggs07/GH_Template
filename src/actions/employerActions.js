@@ -59,6 +59,7 @@ export function fetchEmployersSuccess(employers) {
 
             dispatch({type: FETCH_EMPLOYERS_SUCCESS, data: employers, loading: false})
         } else {
+
             dispatch({type: FETCH_EMPLOYERS_SUCCESS, data: employers, loading: false})
         }
     }

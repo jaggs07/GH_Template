@@ -14170,10 +14170,37 @@ body:not(.top-nav) .sidebar .nav .nav-item .nav-link i, body:not(.top-nav) .side
   border-right: 1px solid #dbdee0; }
 
 .animated .row .col-lg-12 .card .card-header .btn, .animated .row .col-lg-12 .card .card-header .fc button, .fc .animated .row .col-lg-12 .card .card-header button {
-  float: right; }
+  float: right;
+  border-color: white; }
+
+.animated .row .col-lg-12 .card .card-block .table tbody tr td .btn, .animated .row .col-lg-12 .card .card-block .table tbody tr td .fc button, .fc .animated .row .col-lg-12 .card .card-block .table tbody tr td button {
+  border-color: white; }
+
+.animated .row .col-lg-12 .card .card-block .table tbody tr td div:hover {
+  cursor: pointer; }
+
+.animated .row .col-lg-12 .card .card-block .table tbody tr td a {
+  color: #34383c; }
+
+.animated .row .col-lg-12 .card .card-block .table tbody tr td a:hover {
+  text-decoration: none; }
 
 .animated .row .col-lg-12 .card .card-block .table .btn, .animated .row .col-lg-12 .card .card-block .table .fc button, .fc .animated .row .col-lg-12 .card .card-block .table button {
   float: right; }
+
+.animated .row .col-lg-12 .card .card-block .loader-icon .loader-message {
+  text-align: center;
+  font-size: 24px; }
+
+@keyframes blink {
+  50% {
+    color: transparent; } }
+  .animated .row .col-lg-12 .card .card-block .loader-icon .loader-message .loader__dot {
+    animation: 1s blink infinite; }
+  .animated .row .col-lg-12 .card .card-block .loader-icon .loader-message .loader__dot:nth-child(2) {
+    animation-delay: 250ms; }
+  .animated .row .col-lg-12 .card .card-block .loader-icon .loader-message .loader__dot:nth-child(3) {
+    animation-delay: 500ms; }
 
 .modal-employer .form-wrapper .form-group .col-sm-9 .Select {
   text-transform: capitalize; }

@@ -98,9 +98,9 @@ class Tables extends Component {
 
     var resultDisplay = null;
     
-    if ( jobDetailList.length > 0) {
+    if ( jobDetailList.length > 0 && this.state.boardToken !== '') {
 
-      resultDisplay = <table className="table">
+      resultDisplay = <table className="table table-striped">
                           <thead>
                               <tr>
                                 <th >Title</th>
@@ -113,9 +113,27 @@ class Tables extends Component {
                             {jobDetailList}
                           </tbody>
                       </table>                         
+    }else if(this.state.boardToken !== ''){
+      resultDisplay = <div className="loader-icon">
+                        <div className="sk-cube-grid">
+                          <div className="sk-cube sk-cube1"></div>
+                          <div className="sk-cube sk-cube2"></div>
+                          <div className="sk-cube sk-cube3"></div>
+                          <div className="sk-cube sk-cube4"></div>
+                          <div className="sk-cube sk-cube5"></div>
+                          <div className="sk-cube sk-cube6"></div>
+                          <div className="sk-cube sk-cube7"></div>
+                          <div className="sk-cube sk-cube8"></div>
+                          <div className="sk-cube sk-cube9"></div>
+                        </div>
+                        <div className="loader-message">
+                                    Displaying Jobs
+                                  <span className="loader__dot">.</span>
+                                  <span className="loader__dot">.</span>
+                                  <span className="loader__dot">.</span>
+                          </div>
+                          </div>
     }
-
-  
 
     return (
       <div className="animated fadeIn">

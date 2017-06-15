@@ -8,7 +8,7 @@ const cookies = new Cookie();
 
 class Login extends Component {
 
-     constructor(props) {
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -24,7 +24,7 @@ class Login extends Component {
 
             cookies.set('token', { 'email': this.state.email, 'token': nextProps.user.data.token });
             hashHistory.push('/')
-        }else if (nextProps.user.error.error){
+        } else if (nextProps.user.error.error) {
 
             this.displayNotification(nextProps.user.error.error);
             this.props.resetUserData();
@@ -74,27 +74,28 @@ class Login extends Component {
 
             if (this.state.email.trim().length === 0) {
                 this.displayNotification('Enter email');
-            }else if (!this.validateEmail(this.state.email)) {
+            } else if (!this.validateEmail(this.state.email)) {
                 this.displayNotification('Enter valid email');
             } else if (this.state.password.trim().length === 0) {
                 this.displayNotification('Enter password');
             } else if (this.state.password.trim().length < 6) {
                 this.displayNotification('Password must be at least 6 characters');
-            }else if (this.state.password.trim().search(/[0-9]/) < 0) {
+            } else if (this.state.password.trim().search(/[0-9]/) < 0) {
                 this.displayNotification('Password must contain one numeric characters');
             } else {
                 this.props.onLoginClick(this.state.email, this.state.password)
             }
         });
+
     }
 
     handleRegisterClick = () => {
         hashHistory.push('/register');
     }
 
-  render() {
+    render() {
 
-       var notificationStyle = {
+        var notificationStyle = {
 
             NotificationItem: {
 
@@ -110,72 +111,71 @@ class Login extends Component {
             }
         }
 
-    return (
-      <div className="app flex-row align-items-center">
-        <NotificationSystem ref="notificationSystem" style={notificationStyle}/>
+        return (
+            <div className="app flex-row align-items-center">
+                <NotificationSystem ref="notificationSystem" style={notificationStyle} />
 
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-md-8">
+                <div className="container">
+                    <div className="row justify-content-center">
+                        <div className="col-md-8">
 
-              <div className="card-group mb-0">
+                            <div className="card-group mb-0">
 
-                <div className="card p-4">
+                                <div className="card p-4">
 
-                  <div className="card-block">
-                    <h1>Login</h1>
-                    <p className="text-muted">Sign In to your account</p>
-                    
-                    <div className="input-group mb-3">
-                      <span className="input-group-addon"><i className="icon-user"></i></span>
-                      <input type="text" className="form-control" onChange={this.handleEmailChange} placeholder="Username"/>
+                                    <div className="card-block">
+                                        <h1>Login</h1>
+                                        <p className="text-muted">Sign In to your account</p>
+
+                                        <div className="input-group mb-3">
+                                            <span className="input-group-addon"><i className="icon-user"></i></span>
+                                            <input type="email" className="form-control" onChange={this.handleEmailChange} placeholder="Username" />
+                                        </div>
+
+                                        <div className="row">
+                                            <div className="col-6">
+                                                <LaddaButton
+                                                    className="btn btn-block btn-primary btn-ladda"
+                                                    loading={this.state.btnLoading}
+                                                    value='expZoomIn'
+                                                    onClick={this.handleSubmit}
+                                                    data-color="blue"
+                                                    data-style={ZOOM_IN}
+                                                >
+                                                    Login
+                                                </LaddaButton>
+                                            </div>
+
+
+                                            <div className="row">
+                                                <div className="col-6">
+                                                    <button type="button" onClick={this.handleSubmit} className="btn btn-primary px-4">Login</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div className="card card-inverse card-primary py-5 d-md-down-none" style={{ width: 44 + '%' }}>
+                                        <div className="card-block text-center">
+                                            <div>
+                                                <h2>Sign up</h2>
+                                                <p>Don't have an account? You can create one by registering. </p>
+                                                <button type="button" onClick={this.handleRegisterClick} className="btn btn-primary active mt-3">Register Now!</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-                    <div className="input-group mb-4">
-                      <span className="input-group-addon"><i className="icon-lock"></i></span>
-                      <input type="password" className="form-control" onChange={this.handlePasswordChange} placeholder="Password"/>
-                    </div>
-
-                    <div className="row">
-                      <div className="col-6">
-                            <LaddaButton
-                                    className="btn btn-block btn-primary btn-ladda"
-                                    loading={this.state.btnLoading}
-                                    value='expZoomIn'
-                                    onClick={this.handleSubmit}
-                                    data-color="blue"
-                                    data-style={ZOOM_IN}
-                                >
-                                    Login
-                                </LaddaButton>
-                      </div>
-
-                      {/*<div className="col-6 text-right">
-                        <button type="button" className="btn btn-link px-0">Forgot password?</button>
-                      </div>*/}
-                    </div>
-
-                  </div>
-
                 </div>
-
-                <div className="card card-inverse card-primary py-5 d-md-down-none" style={{ width: 44 + '%' }}>
-                  <div className="card-block text-center">
-                    <div>
-                      <h2>Sign up</h2>
-                      <p>Don't have an account? You can create one by registering. </p>
-                      <button type="button" onClick={this.handleRegisterClick} className="btn btn-primary active mt-3">Register Now!</button>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+        );
+
+    }
 }
 
 export default Login;
