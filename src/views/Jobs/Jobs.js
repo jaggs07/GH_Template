@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import _ from "lodash";
 import Cookie from 'universal-cookie';
+import Paginator from '../../components/Paginator/';
 
 const cookies = new Cookie();
 
@@ -97,6 +98,8 @@ class Tables extends Component {
     }
 
     var resultDisplay = null;
+
+    var pagination = null;
     
     if ( jobDetailList.length > 0 && this.state.boardToken !== '') {
 
@@ -112,7 +115,9 @@ class Tables extends Component {
                           <tbody>
                             {jobDetailList}
                           </tbody>
-                      </table>                         
+                      </table>   
+
+      pagination = <Paginator />                       
     }else if(this.state.boardToken !== ''){
       resultDisplay = <div className="loader-icon">
                         <div className="sk-cube-grid">
@@ -145,7 +150,8 @@ class Tables extends Component {
               {cardHeader}
 
               <div className="card-block">
-                {resultDisplay}             
+                {resultDisplay} 
+                {pagination}            
               </div>
             </div>
           </div>

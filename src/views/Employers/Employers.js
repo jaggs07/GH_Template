@@ -5,6 +5,7 @@ import Cookie from 'universal-cookie';
 import { hashHistory } from 'react-router'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import Select from 'react-select';
+import Paginator from '../../components/Paginator/';
 
 const cookies = new Cookie();
 
@@ -349,12 +350,17 @@ class Tables extends Component {
 
         var addRefreshButton = null;
 
+        var pagination = null;
+
         if(employerDetailList.length > 0){
 
             addRefreshButton = <button type="button" className="btn btn-primary table-refresh-button"
                                         onClick={ this.handleRefreshAllClick } >
                                     <i className="fa fa-refresh fa-lg" />&nbsp; Refresh All
                                 </button>
+
+            pagination = <Paginator />
+                    
         } 
 
         var resultDisplay = null;
@@ -503,12 +509,11 @@ class Tables extends Component {
                                         onClick={ this.openFormModal.bind(this, "addEmployer") } >
                                     <i className="fa fa-plus fa-lg" />&nbsp; Add Employer
                                 </button>
-
-                            
                         </div>
 
                         <div className="card-block">
                             {resultDisplay}
+                            {pagination}
                     
                         </div>
                     </div>

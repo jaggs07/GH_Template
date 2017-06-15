@@ -4,6 +4,7 @@ import _ from 'lodash';
 import NotificationSystem from 'react-notification-system';
 import Select from 'react-select';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import Paginator from '../../components/Paginator/';
 
 const cookies = new Cookie();
 
@@ -298,6 +299,8 @@ class Tables extends Component {
 
         var resultDisplay = null;
 
+        var pagination = null;
+
         if ( userDetailList.length > 0) {
 
             resultDisplay =
@@ -317,6 +320,8 @@ class Tables extends Component {
                     </tbody>
 
                 </table>
+
+            pagination = <Paginator/>
         }
 
   
@@ -417,6 +422,7 @@ class Tables extends Component {
 
                         <div className="card-block">
                             {resultDisplay}
+                            {pagination}
                         </div>
                     </div>
                 </div>
