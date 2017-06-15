@@ -4,6 +4,7 @@ import Cookie from 'universal-cookie';
 import NotificationSystem from 'react-notification-system';
 import { hashHistory } from 'react-router'
 import Select from 'react-select';
+import LaddaButton, { ZOOM_IN } from 'react-ladda';
 
 const cookies = new Cookie();
 
@@ -21,7 +22,8 @@ class Register extends Component {
             accountTypeOptions: [
                  { value: 'client', label: 'client' },
                  { value: 'prospect', label: 'prospect' }
-            ]
+            ],
+            expZoomIn: false
         };
     }
 
@@ -37,14 +39,24 @@ class Register extends Component {
         }
     }
 
-     displayNotification(message, level = 'error') {
-        this.refs.notificationSystem.addNotification({
-            message: message,
-            level: level,
-            dismissible: false,
-            autoDismiss: 3,
-            position: 'tc'
+    displayNotification(message, level = 'error') {
+        
+
+        this.setState({
+                expZoomIn: !this.state.expZoomIn
+        }, function(){
+       
+            this.refs.notificationSystem.addNotification({
+                message: message,
+                level: level,
+                dismissible: false,
+                autoDismiss: 3,
+                position: 'tc'
+            });
+
         });
+
+        
     }
     getValidationState() {
         if (this.state.firstName.length > 0 && 
@@ -85,31 +97,37 @@ class Register extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        if (this.state.firstName.trim().length === 0) {
-            this.displayNotification('Enter first name');
-        }else if (this.state.lastName.trim().length === 0) {
-            this.displayNotification('Enter last name');
-        }else if (this.state.email.trim().length === 0) {
-            this.displayNotification('Enter email');
-        } else if (!this.validateEmail(this.state.email)) {
-            this.displayNotification('Enter valid email');
-        } else if (this.state.password.trim().length === 0) {
-            this.displayNotification('Enter password');
-        } else if (this.state.password.trim().length < 6) {
-            this.displayNotification('Password must be at least 6 characters');
-        }else if (this.state.password.trim().search(/[0-9]/) < 0) {
-            this.displayNotification('Password must contain at least single digit character');
-        }
-        else if (this.state.accountType.length === 0) {
-            this.displayNotification('Select account type for the client');
-        }
-        else {
-            this.props.onRegisterClick(this.state.firstName,
-                                        this.state.lastName, 
-                                        this.state.email, 
-                                        this.state.password, 
-                                        this.state.accountType)
-        }
+
+        this.setState({
+            expZoomIn: !this.state.expZoomIn
+        }, () => {
+
+            if (this.state.firstName.trim().length === 0) {
+                this.displayNotification('Enter first name');
+            }else if (this.state.lastName.trim().length === 0) {
+                this.displayNotification('Enter last name');
+            }else if (this.state.email.trim().length === 0) {
+                this.displayNotification('Enter email');
+            } else if (!this.validateEmail(this.state.email)) {
+                this.displayNotification('Enter valid email');
+            } else if (this.state.password.trim().length === 0) {
+                this.displayNotification('Enter password');
+            } else if (this.state.password.trim().length < 6) {
+                this.displayNotification('Password must be at least 6 characters');
+            }else if (this.state.password.trim().search(/[0-9]/) < 0) {
+                this.displayNotification('Password must contain at least single digit character');
+            }
+            else if (this.state.accountType.length === 0) {
+                this.displayNotification('Select account type for the client');
+            }
+            else {
+                this.props.onRegisterClick(this.state.firstName,
+                                            this.state.lastName, 
+                                            this.state.email, 
+                                            this.state.password, 
+                                            this.state.accountType)
+            }
+        });
     }
 
 
@@ -187,10 +205,17 @@ class Register extends Component {
                                     onChange={this.handleAccountTypeChange}
                                     searchable={false}
                                     />
-                                <button type="button" className="btn btn-block btn-success" 
-                                        onClick={this.handleSubmit}>
+                                <LaddaButton
+                                    className="btn btn-block btn-success btn-ladda"
+                                    loading={this.state.expZoomIn}
+                                    value='expZoomIn'
+                                    onClick={this.handleSubmit}
+                                    data-color="blue"
+                                    data-style={ZOOM_IN}
+                                >
                                     Create Account
-                                </button>
+                                </LaddaButton>
+                                
                             </div>
                             
                         </div>

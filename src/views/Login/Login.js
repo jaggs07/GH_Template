@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Cookie from 'universal-cookie';
 import NotificationSystem from 'react-notification-system';
 import { hashHistory } from 'react-router'
+import LaddaButton, { ZOOM_IN } from 'react-ladda';
 
 const cookies = new Cookie();
 
@@ -13,6 +14,7 @@ class Login extends Component {
         this.state = {
             email: '',
             password: '',
+            btnLoading: false
         };
     }
 
@@ -42,12 +44,17 @@ class Login extends Component {
     }
 
     displayNotification(message, level = 'error') {
-        this.refs.notificationSystem.addNotification({
-            message: message,
-            level: level,
-            dismissible: false,
-            autoDismiss: 3,
-            position: 'tc'
+
+        this.setState({
+            btnLoading: !this.state.btnLoading
+        }, () => {
+            this.refs.notificationSystem.addNotification({
+                message: message,
+                level: level,
+                dismissible: false,
+                autoDismiss: 3,
+                position: 'tc'
+            });
         });
     }
     handleEmailChange = (e) => {
@@ -60,19 +67,25 @@ class Login extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        if (this.state.email.trim().length === 0) {
-            this.displayNotification('Enter email');
-        }else if (!this.validateEmail(this.state.email)) {
-            this.displayNotification('Enter valid email');
-        } else if (this.state.password.trim().length === 0) {
-            this.displayNotification('Enter password');
-        } else if (this.state.password.trim().length < 6) {
-            this.displayNotification('Password must be at least 6 characters');
-        }else if (this.state.password.trim().search(/[0-9]/) < 0) {
-            this.displayNotification('Password must contain one numeric characters');
-        } else {
-            this.props.onLoginClick(this.state.email, this.state.password)
-        }
+
+        this.setState({
+            btnLoading: !this.state.btnLoading
+        }, () => {
+
+            if (this.state.email.trim().length === 0) {
+                this.displayNotification('Enter email');
+            }else if (!this.validateEmail(this.state.email)) {
+                this.displayNotification('Enter valid email');
+            } else if (this.state.password.trim().length === 0) {
+                this.displayNotification('Enter password');
+            } else if (this.state.password.trim().length < 6) {
+                this.displayNotification('Password must be at least 6 characters');
+            }else if (this.state.password.trim().search(/[0-9]/) < 0) {
+                this.displayNotification('Password must contain one numeric characters');
+            } else {
+                this.props.onLoginClick(this.state.email, this.state.password)
+            }
+        });
     }
 
     handleRegisterClick = () => {
@@ -125,7 +138,16 @@ class Login extends Component {
 
                     <div className="row">
                       <div className="col-6">
-                        <button type="button" onClick={this.handleSubmit} className="btn btn-primary px-4">Login</button>
+                            <LaddaButton
+                                    className="btn btn-block btn-primary btn-ladda"
+                                    loading={this.state.btnLoading}
+                                    value='expZoomIn'
+                                    onClick={this.handleSubmit}
+                                    data-color="blue"
+                                    data-style={ZOOM_IN}
+                                >
+                                    Login
+                                </LaddaButton>
                       </div>
 
                       {/*<div className="col-6 text-right">

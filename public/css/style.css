@@ -14184,5 +14184,13 @@ body:not(.top-nav) .sidebar .nav .nav-item .nav-link i, body:not(.top-nav) .side
 .app .container .row .col-md-6 .card .card-block .Select {
   text-transform: capitalize; }
 
+.nav-tabs .nav-link.active, .nav-tabs .navbar .active.dropdown-toggle, .navbar .nav-tabs .active.dropdown-toggle {
+  background: #006CB7;
+  color: white; }
+
+.nav-tabs li:hover {
+  background: #9fabb8;
+  color: black; }
+
 .table-add-button {
   float: right; }

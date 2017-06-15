@@ -136,3 +136,16 @@ body:not(.top-nav) {
         }
     }
 }
+
+//for setting user account and change password tabs
+.nav-tabs {
+    .nav-link.active {
+        background: #006CB7;
+        color: white;
+    }
+
+    li:hover {
+        background: #9fabb8;
+        color: black;
+    }
+}
