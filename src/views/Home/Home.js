@@ -12,7 +12,7 @@ import Employers from '../../containers/Employers/'
 import Jobs from '../../containers/Jobs/'
 
 
-class Full extends Component {
+class Home extends Component {
 
   render() {
     return (
@@ -40,4 +40,4 @@ class Full extends Component {
   }
 }
 
-export default Full;
+export default Home;

@@ -240,8 +240,9 @@ class Tables extends Component {
     }
     
     handleTotalJobsClick = (boardToken,companyName) => {
-        this.props.resetJobsData();
-        hashHistory.push('/jobs')
+        // this.props.resetJobsData();
+        this.props.setBoardToken(boardToken)
+        // hashHistory.push('/jobs')
     }
 
   render() {
@@ -283,25 +284,26 @@ class Tables extends Component {
 
         if(typeof employerList !== 'undefined' && employerList.length >0){
 
-                    employerDetailList = employerList.map( (employer, i) => {
+            employerDetailList = employerList.map( (employer, i) => {
 
-                            var employerObject =  <tr key={i} className="header">
+                var employerObject = 
+                    <tr key={i} className="header">
 
-                                                        <td ><div onClick={this.handleCompanyNameClick.bind(this,employer.boardToken,employer.companyName)}>{ employer.companyName }</div></td>
-                                                        <td > <a href={employer.careersUrl} target="_blank" > { employer.careersUrl.substring(0,35) } </a></td>
-                                                        <td > <a href={ employer.linkedInUrl } target="_blank" > { employer.linkedInUrl.substring(0,35) } </a></td>
-                                                        <td > <a href="" onClick={this.handleBoardTokenClick.bind(this,employer.boardToken)} target="_blank" > { employer.boardToken } </a></td>
-                                                        <td >  { employer.accountType } </td>
-                                                        <td > <div onClick={this.handleTotalJobsClick.bind(this,employer.boardToken, employer.companyName)} > { employer.totalJobs } </div></td>
-                                                        <td>
-                                                          <span title="Edit" value="updateEmployer" className="fa fa-pencil-square fa-lg mt-4" onClick={this.openUpdateEmployerModal.bind(this, employer)}></span>&nbsp;
-                                                          <span title="Refresh" className="fa fa-refresh fa-lg mt-4" onClick={this.handleRefresh.bind(this, employer.id)}></span>&nbsp;
-                                                          <span title="Delete" className="fa fa-trash-o fa-lg mt-4" value={employer.id} onClick={this.openDeleteModal}></span>
-                                                        </td>
-                                                 </tr>
-                            return employerObject;
+                        <td ><div onClick={this.handleCompanyNameClick.bind(this,employer.boardToken,employer.companyName)}>{ employer.companyName }</div></td>
+                        <td > <a href={employer.careersUrl} target="_blank" > { employer.careersUrl.substring(0,35) } </a></td>
+                        <td > <a href={ employer.linkedInUrl } target="_blank" > { employer.linkedInUrl.substring(0,35) } </a></td>
+                        <td > <a href="" onClick={this.handleBoardTokenClick.bind(this,employer.boardToken)} target="_blank" > { employer.boardToken } </a></td>
+                        <td >  { employer.accountType } </td>
+                        <td > <div onClick={this.handleTotalJobsClick.bind(this,employer.boardToken, employer.companyName)} > { employer.totalJobs } </div></td>
+                        <td>
+                            <span title="Edit" value="updateEmployer" className="fa fa-pencil-square fa-lg mt-4" onClick={this.openUpdateEmployerModal.bind(this, employer)}></span>&nbsp;
+                            <span title="Refresh" className="fa fa-refresh fa-lg mt-4" onClick={this.handleRefresh.bind(this, employer.id)}></span>&nbsp;
+                            <span title="Delete" className="fa fa-trash-o fa-lg mt-4" value={employer.id} onClick={this.openDeleteModal}></span>
+                        </td>
+                    </tr>
+                return employerObject;
 
-                   }, this);
+            }, this);
         }
 
         var resultDisplay = null;

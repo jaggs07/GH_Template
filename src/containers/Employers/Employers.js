@@ -3,7 +3,7 @@ import { fetchEmployers, removeEmployer, saveEmployer,
         updateEmployer, refreshEmployer,
         refreshAllEmployers  } from '../../actions/employerActions';
 
-import { resetJobsData  } from '../../actions/jobActions';
+import { resetJobsData , setBoardToken } from '../../actions/jobActions';
 import Employers from '../../views/Employers/';
 
 const mapStateToProps = (state) => {
@@ -40,6 +40,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         resetJobsData: () => {
           dispatch(resetJobsData());
+        },
+        setBoardToken: (boardToken) => {
+            dispatch(setBoardToken(boardToken));
         }
     }
 }

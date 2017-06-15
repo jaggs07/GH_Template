@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 
 // Containers
-import Full from './containers/Full/'
+import Home from './views/Home/'
 import Login from './containers/Login/'
 import Register from './containers/Register/'
 
@@ -26,7 +26,7 @@ ReactDOM.render((
       <Route exact path="/register" name="Register Page" component={Register}/>
       {/*<Route exact path="/404" name="Page 404" component={Page404}/>
       <Route exact path="/500" name="Page 500" component={Page500}/>*/}
-      <Route path="/" name="Home" component={Full}/>
+      <Route path="/" name="Home" component={Home}/>
     </Switch>
   </HashRouter>
   	</Provider>

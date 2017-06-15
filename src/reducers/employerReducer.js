@@ -158,13 +158,13 @@ const employerReducer = (state = INITIAL_STATE, action) => {
 
         case REFRESH_EMPLOYER_SUCCESS:
 
-	        var updatedEmployer = updateObjectInArray(state.employer.data, action);
+	        var refreshedEmployer = updateObjectInArray(state.employer.data, action);
 
             state = {
                 ...state,
                 employer: {
                     ...state.employer,
-                    data: updatedEmployer,
+                    data: refreshedEmployer,
                     loading: action.loading
                 }
             };

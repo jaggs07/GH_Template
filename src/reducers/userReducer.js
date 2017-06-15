@@ -361,11 +361,13 @@ const userReducer = (state = INITIAL_STATE, action) => {
                     error: action.error
                 }
             }
+          break;
 
         default:
             state = {
                 ...state
             }
+          break;
 
     }
     return state;

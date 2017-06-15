@@ -2,7 +2,8 @@ import {INITIAL_STATE} from '../model';
 
 import {
     FETCH_JOBS, FETCH_JOBS_SUCCESS, FETCH_JOBS_FAILURE,
-    RESET_JOBS_DATA
+    RESET_JOBS_DATA,
+    SET_BOARD_TOKEN
 } from '../actions/jobActions'
 
 const jobReducer = (state = INITIAL_STATE, action) => {
@@ -48,6 +49,16 @@ const jobReducer = (state = INITIAL_STATE, action) => {
                     loading: false,
                     data: [],
                     error: {}
+                }
+            };
+            break;
+
+        case SET_BOARD_TOKEN: 
+            state = {
+                ...state,
+                job: {
+                    ...state.job,
+                    boardToken: action.boardToken
                 }
             };
             break;
