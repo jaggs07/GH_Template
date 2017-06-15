@@ -17,6 +17,7 @@ export const INITIAL_STATE = {
       loading: false,
       data:[],
       error:{},
-      boardToken: ''
+      boardToken: '',
+      companyName: ''
   }
 }

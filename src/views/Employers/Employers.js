@@ -55,8 +55,8 @@ class Tables extends Component {
                 formType: "Update Employer"
             });
         }else{
-            this.setState({
 
+            this.setState({
                 showModal: true,
                 formType: "Create New Employer",
                 employer : {
@@ -137,7 +137,6 @@ class Tables extends Component {
 
         this.setState({
             employer : employer
-
         });
     }
 
@@ -147,7 +146,6 @@ class Tables extends Component {
 
         this.setState({
             employer : employer
-
         });
     }
 
@@ -157,7 +155,6 @@ class Tables extends Component {
 
         this.setState({
             employer : employer
-
         });
     }
 
@@ -217,7 +214,6 @@ class Tables extends Component {
 
         this.props.onUpdateEmployer(updatedEmployer, token.token);
         this.setState({ showModal: false});
-
     }
 
     handleRefresh = (id) => {
@@ -236,13 +232,16 @@ class Tables extends Component {
     }
 
     handleCompanyNameClick = (boardToken,companyName) =>{
-        hashHistory.push('/dashboard')
+        this.props.setBoardToken(boardToken)
+        this.props.setCompanyName(companyName)
+        hashHistory.push('/dashboard');
     }
     
     handleTotalJobsClick = (boardToken,companyName) => {
-        // this.props.resetJobsData();
-        this.props.setBoardToken(boardToken)
-        // hashHistory.push('/jobs')
+        this.props.resetJobsData();
+        this.props.setBoardToken(boardToken);
+        this.props.setCompanyName(companyName);
+        hashHistory.push('/jobs')
     }
 
   render() {
@@ -267,7 +266,11 @@ class Tables extends Component {
 
         if(this.props.user.detail.superUser === 1){
 
-            addEmployerButton = <span className="add-employer-employer"><button value="addEmployer" type="button" onClick={ this.openFormModal } className="btn btn-primary add-employer"><i className="glyphicon glyphicon-plus" /> Add Employer</button></span>
+            addEmployerButton = <span className="add-employer-employer">
+                                    <button value="addEmployer" type="button" onClick={ this.openFormModal } className="btn btn-primary add-employer">
+                                        <i className="glyphicon glyphicon-plus" /> Add Employer
+                                    </button>
+                                </span>
         }
 
         var  button = null;
@@ -286,23 +289,56 @@ class Tables extends Component {
 
             employerDetailList = employerList.map( (employer, i) => {
 
-                var employerObject = 
-                    <tr key={i} className="header">
+                var employerObject = <tr key={i} className="header">
 
-                        <td ><div onClick={this.handleCompanyNameClick.bind(this,employer.boardToken,employer.companyName)}>{ employer.companyName }</div></td>
-                        <td > <a href={employer.careersUrl} target="_blank" > { employer.careersUrl.substring(0,35) } </a></td>
-                        <td > <a href={ employer.linkedInUrl } target="_blank" > { employer.linkedInUrl.substring(0,35) } </a></td>
-                        <td > <a href="" onClick={this.handleBoardTokenClick.bind(this,employer.boardToken)} target="_blank" > { employer.boardToken } </a></td>
-                        <td >  { employer.accountType } </td>
-                        <td > <div onClick={this.handleTotalJobsClick.bind(this,employer.boardToken, employer.companyName)} > { employer.totalJobs } </div></td>
-                        <td>
-                            <span title="Edit" value="updateEmployer" className="fa fa-pencil-square fa-lg mt-4" onClick={this.openUpdateEmployerModal.bind(this, employer)}></span>&nbsp;
-                            <span title="Refresh" className="fa fa-refresh fa-lg mt-4" onClick={this.handleRefresh.bind(this, employer.id)}></span>&nbsp;
-                            <span title="Delete" className="fa fa-trash-o fa-lg mt-4" value={employer.id} onClick={this.openDeleteModal}></span>
-                        </td>
-                    </tr>
+                                        <td>
+                                            <div onClick={this.handleCompanyNameClick.bind(this,employer.boardToken,employer.companyName)}>
+                                                { employer.companyName }
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <a href={employer.careersUrl} target="_blank" >
+                                                { employer.careersUrl.substring(0,35) }
+                                            </a>
+                                        </td>
+                                        <td> 
+                                            <a href={ employer.linkedInUrl } target="_blank" >
+                                                { employer.linkedInUrl.substring(0,35) } 
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="" onClick={this.handleBoardTokenClick.bind(this,employer.boardToken)} target="_blank" >
+                                                { employer.boardToken } 
+                                            </a>
+                                        </td>
+                                        <td> { employer.accountType } </td>
+                                        <td>
+                                            <div onClick={this.handleTotalJobsClick.bind(this,employer.boardToken, employer.companyName)} >
+                                                { employer.totalJobs } 
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span 
+                                                title="Edit" 
+                                                value="updateEmployer" 
+                                                className="fa fa-pencil-square fa-lg" 
+                                                onClick={this.openUpdateEmployerModal.bind(this, employer)}>
+                                            </span>&nbsp;
+                                            <span 
+                                                title="Refresh" 
+                                                className="fa fa-refresh fa-lg" 
+                                                onClick={this.handleRefresh.bind(this, employer.id)}>
+                                            </span>&nbsp;
+                                            <span 
+                                                title="Delete" 
+                                                className="fa fa-trash-o fa-lg" 
+                                                value={employer.id} 
+                                                onClick={this.openDeleteModal}>
+                                            </span>
+                                        </td>
+                                    </tr>
+                    
                 return employerObject;
-
             }, this);
         }
 
@@ -354,7 +390,6 @@ class Tables extends Component {
           </div>
         </div>
       </div>
-
     )
   }
 }

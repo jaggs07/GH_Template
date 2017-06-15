@@ -156,7 +156,7 @@ class Register extends Component {
                   </div>
 
                  <Dropdown
-                    className="account-type-drop-down"
+                    className="input-group mb-3"
                     options={["Select Client Type","client","prospect"]}
                     onChange={this.handleAccountTypeChange}
                     placeholder="Select Account Type"

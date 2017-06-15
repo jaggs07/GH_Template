@@ -117,7 +117,6 @@ class Tables extends Component {
             showDeleteModal: true,
             userId: userId
         });
-        console.log(this.state.userId,"user id")
     }
 
     closeDeleteModal = () => {
@@ -280,11 +279,11 @@ class Tables extends Component {
                         <td >{ user.companyName }</td>
 
                         <td>
-                            <span title="Edit" className="fa fa-pencil-square fa-lg mt-4" 
+                            <span title="Edit" className="fa fa-pencil-square fa-lg" 
                                     onClick={this.openUpdateUserModal.bind(this, user, "updateUser")}>
                             </span>&nbsp;
 
-                            <span title="Delete" className="fa fa-trash-o fa-lg mt-4"  
+                            <span title="Delete" className="fa fa-trash-o fa-lg"  
                                 onClick={this.openDeleteModal.bind(this, user.id)}>
                             </span>
                         </td>
