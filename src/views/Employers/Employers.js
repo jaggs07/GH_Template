@@ -177,7 +177,7 @@ class Tables extends Component {
 
     handleAccountTypeChange = (e) => {
         var employer = this.state.employer;
-        employer.accountType = e;
+        employer.accountType = e.value;
 
         this.setState({
             employer : employer
@@ -186,7 +186,7 @@ class Tables extends Component {
 
     handleATSTypeChange = (e) => {
         var employer = this.state.employer;
-        employer.atsType = e;
+        employer.atsType = e.value;
         
         this.setState({
             employer : employer
@@ -297,7 +297,7 @@ class Tables extends Component {
             employerDetailList = employerList.map( (employer, i) => {
 
                 var employerObject = 
-                    <tr key={i} className="header">
+                    <tr key={i}>
 
                         <td >
                             <div 
