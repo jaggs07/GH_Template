@@ -269,17 +269,6 @@ class Tables extends Component {
             }
         }
 
-        var addEmployerButton = null;
-
-        if(this.props.user.detail.superUser === 1){
-
-            addEmployerButton = <span className="add-employer-employer">
-                                    <button value="addEmployer" type="button" onClick={ this.openFormModal } className="btn btn-primary add-employer">
-                                        <i className="glyphicon glyphicon-plus" /> Add Employer
-                                    </button>
-                                </span>
-        }
-
         var  button = null;
 
         if(this.state.formType === "Create New Employer"){
@@ -346,6 +335,16 @@ class Tables extends Component {
                 return employerObject;
             }, this);
         }
+
+        var addRefreshButton = null;
+
+        if(employerDetailList.length > 0){
+            
+            addRefreshButton = <button type="button" className="btn btn-primary table-refresh-button"
+                                        onClick={ this.handleRefreshAllClick } >
+                                    <i className="fa fa-refresh fa-lg" />&nbsp; Refresh All
+                                </button>
+        } 
 
         var resultDisplay = null;
 
@@ -487,10 +486,14 @@ class Tables extends Component {
                 
                         <div className="card-header">
                             <i className="fa fa-align-justify"></i> Employers Table
-                            <button type="button" className="btn btn-primary table-add-button"
-                                    onClick={ this.openFormModal.bind(this, "addEmployer") } >
-                                <i className="fa fa-plus fa-lg" />&nbsp; Add Employer
-                            </button>
+                                {addRefreshButton}
+                                
+                                <button type="button" className="btn btn-primary table-add-button"
+                                        onClick={ this.openFormModal.bind(this, "addEmployer") } >
+                                    <i className="fa fa-plus fa-lg" />&nbsp; Add Employer
+                                </button>
+
+                            
                         </div>
 
                         <div className="card-block">

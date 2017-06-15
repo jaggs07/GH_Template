@@ -14170,7 +14170,8 @@ body:not(.top-nav) .sidebar .nav .nav-item .nav-link i, body:not(.top-nav) .side
   border-right: 1px solid #dbdee0; }
 
 .animated .row .col-lg-12 .card .card-header .btn, .animated .row .col-lg-12 .card .card-header .fc button, .fc .animated .row .col-lg-12 .card .card-header button {
-  float: right; }
+  float: right;
+  border-color: white; }
 
 .animated .row .col-lg-12 .card .card-block .table tbody tr td div:hover {
   cursor: pointer; }

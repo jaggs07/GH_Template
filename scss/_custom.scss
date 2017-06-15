@@ -89,7 +89,8 @@ body:not(.top-nav) {
 
                 .card-header {
                     .btn {
-                       float: right
+                       float: right;
+                       border-color: white;
                     }
                 }
 
@@ -118,7 +119,7 @@ body:not(.top-nav) {
                         .loader-message{
                                 text-align: center;
                                 font-size: 24px;
-                                
+
                             @keyframes blink {
                                     50% {
                                         color: transparent
