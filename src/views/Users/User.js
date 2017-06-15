@@ -7,7 +7,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 const cookies = new Cookie();
 
-const ROOT_URL ='http://localhost:8090/api/';
+const ROOT_URL = window.location.hostname === 'localhost' ? 'http://localhost:8090/api/' : 'http://54.234.23.64:8090/api/';
 
 class Tables extends Component {
 

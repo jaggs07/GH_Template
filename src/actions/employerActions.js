@@ -24,7 +24,7 @@ export const REFRESH_ALL_EMPLOYER_FAILURE = "REFRESH_ALL_EMPLOYER_FAILURE";
 
 export const RESET_EMPLOYER_DATA = "RESET_EMPLOYER_DATA";
 
-const ROOT_URL = 'http://localhost:8090/api/';
+const ROOT_URL = window.location.hostname === 'localhost' ? 'http://localhost:8090/api/' : 'http://54.234.23.64:8090/api/';
 
 
 export function fetchEmployers(token) {

@@ -1,6 +1,6 @@
 {
-  "name": "Tables",
+  "name": "Jobs",
   "version": "0.0.0",
   "private": true,
-  "main": "./Tables.js"
+  "main": "./Jobs.js"
 }
