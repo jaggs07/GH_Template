@@ -316,19 +316,30 @@ class Tables extends Component {
                             </div>
                         </td>
                         <td>
-                            
-                            <button title="Delete" type="button" className="btn btn-danger"
-                                onClick={ this.openDeleteModal.bind(this, employer.id) } >
-                                <i className="fa fa-trash-o fa-lg" />
+                             <button 
+                                title="Delete" 
+                                type="button" 
+                                className="btn btn-danger btn-sm"
+                                onClick={ this.openDeleteModal.bind(this, employer.id) }>
+                                <i className="fa fa-trash-o fa-sm" />
                             </button>
-                            <button title="Refresh" type="button" className="btn btn-info"
+
+                            <button 
+                                title="Refresh" 
+                                type="button" 
+                                className="btn btn-primary btn-sm"
                                 onClick={ this.handleRefresh.bind(this, employer.id) } >
-                                <i className="fa fa-refresh fa-lg" />
+                                <i className="fa fa-refresh fa-sm" />
                             </button>
-                            <button title="Update" type="button" className="btn btn-info"
-                                onClick={ this.openUpdateEmployerModal.bind(this, employer, "updateEmployer") } >
-                                <i className="fa fa-pencil-square fa-lg" />
-                            </button>
+                           
+                            <button 
+                                title="Update" 
+                                type="button" 
+                                className="btn btn-primary btn-sm"
+                                onClick={ this.openUpdateEmployerModal.bind(this, employer, "updateEmployer") }>
+                                <i className="fa fa-pencil fa-sm" />
+                            </button>  
+
                         </td>
                     </tr>
 
@@ -339,7 +350,7 @@ class Tables extends Component {
         var addRefreshButton = null;
 
         if(employerDetailList.length > 0){
-            
+
             addRefreshButton = <button type="button" className="btn btn-primary table-refresh-button"
                                         onClick={ this.handleRefreshAllClick } >
                                     <i className="fa fa-refresh fa-lg" />&nbsp; Refresh All
@@ -351,7 +362,7 @@ class Tables extends Component {
         if ( employerDetailList.length > 0) {
 
             resultDisplay = 
-                        <table className="table">
+                        <table className="table table-striped">
                             <thead>
                             <tr >
                                 <th >Company </th>

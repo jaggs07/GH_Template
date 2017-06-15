@@ -279,14 +279,14 @@ class Tables extends Component {
                         <td >{ user.companyName }</td>
 
                         <td>
-                            <button type="button" className="btn btn-danger"
+                            <button type="button" className="btn btn-danger btn-sm"
                                 onClick={ this.openDeleteModal.bind(this, user.id) } >
-                                <i className="fa fa-trash-o fa-lg" />
+                                <i className="fa fa-trash-o fa-sm" />
                             </button>
 
-                            <button type="button" className="btn btn-primary"
+                            <button type="button" className="btn btn-primary btn-sm"
                                 onClick={ this.openUpdateUserModal.bind(this, user, "updateUser") } >
-                                <i className="fa fa-pencil fa-lg" />
+                                <i className="fa fa-pencil fa-sm" />
                             </button>   
                         </td>
                     </tr>

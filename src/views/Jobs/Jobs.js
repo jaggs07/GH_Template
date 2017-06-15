@@ -100,7 +100,7 @@ class Tables extends Component {
     
     if ( jobDetailList.length > 0 && this.state.boardToken !== '') {
 
-      resultDisplay = <table className="table">
+      resultDisplay = <table className="table table-striped">
                           <thead>
                               <tr>
                                 <th >Title</th>

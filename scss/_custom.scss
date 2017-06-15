@@ -99,6 +99,9 @@ body:not(.top-nav) {
                         tbody{
                             tr{
                                 td{
+                                    .btn{
+                                        border-color: white;
+                                    }
                                     div:hover{
                                         cursor: pointer;
                                     }
