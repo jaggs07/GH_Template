@@ -1,12 +1,11 @@
 import { connect } from 'react-redux';
 import { userInfo } from '../../actions/userActions';
 
-import Dashboard from '../../views/Dashboard/';
+import Home from '../../views/Dashboard/';
 
 const mapStateToProps = (state) => {
     return {
-        user: state.userReducer.user,
-        job: state.jobReducer.job
+        user: state.userReducer.user
     }
 }
 
@@ -19,6 +18,6 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-const DashboardContainer = connect(mapStateToProps, mapDispatchToProps, null)(Dashboard)
+const HomeContainer = connect(mapStateToProps, mapDispatchToProps, null)(Home)
 
-export default DashboardContainer
+export default HomeContainer

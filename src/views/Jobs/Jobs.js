@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-
 import _ from "lodash";
-
 import Cookie from 'universal-cookie';
 
 const cookies = new Cookie();
@@ -14,20 +12,18 @@ class Tables extends Component {
       super(props);
 
       this.state = {
-          boardToken: this.props.boardToken,
-          companyName: this.props.companyName
+          boardToken: this.props.job.boardToken,
+          companyName: this.props.job.companyName
       }
-
   }
 
   componentWillMount(){
 
     if(this.state.boardToken !== ''){
-      this.props.fetchJobs("pucker");
+      this.props.fetchJobs(this.state.boardToken);
     }
 
     var token = cookies.get('token');
-
 
     if(token.email !== 'rake@reignger.com' && ('id' in this.props.user.detail) ){
 
@@ -48,7 +44,6 @@ class Tables extends Component {
 		               this.setState({
                         boardToken: ''
                   });
-
 	            }else{
                   this.setState({
                         boardToken: responseData.boardToken,
@@ -57,7 +52,6 @@ class Tables extends Component {
                     this.props.fetchJobs(this.state.boardToken)
                   });
 	            }
-            
         })
         .catch((error) => {
             return {options : [{ value: 'Company fetch error...', label: 'Company fetch error...' }]}
@@ -67,7 +61,7 @@ class Tables extends Component {
 
   render() {
 
-     var jobList = this.props.job.data.jobs;
+    var jobList = this.props.job.data.jobs;
     var jobDetailList = [];
 
     var sortedJobList = _.sortBy(jobList, 'updated_at', function(n) {
@@ -82,7 +76,6 @@ class Tables extends Component {
           var updatedDate = job.updated_at.split("T")[0];
 
           var jobObject = <tr key={i} className="header">
-                            <td> {i+1}</td>
                             <td title={job.title}>{job.title.substring(0,30)}</td>
                             <td >{job.location.name}</td>
                             <td >{updatedDate}</td>
@@ -91,25 +84,38 @@ class Tables extends Component {
       }, this);
     }
 
+    var cardHeader = '';
+
+    if(this.state.boardToken !== ''){
+      cardHeader = <div className="card-header">
+                    <i className="fa fa-align-justify"></i> <strong>{this.state.companyName}</strong> Job Lists
+                  </div>
+    }else{
+      cardHeader = <div className="card-header">
+                    <i className="fa fa-align-justify"></i> Jobs Table
+                  </div>
+    }
+
     var resultDisplay = null;
     
     if ( jobDetailList.length > 0) {
 
-      resultDisplay = 
-                          <table className="table">
-                              <thead>
-                                  <tr>
-                                    <th> S.No.</th>
-                                    <th >Title</th>
-                                    <th >Location </th>
-                                    <th >Updated Date </th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {jobDetailList}
-                                </tbody>
-                            </table>
+      resultDisplay = <table className="table">
+                          <thead>
+                              <tr>
+                                <th >Title</th>
+                                <th >Location </th>
+                                <th >Updated Date </th>
+                              </tr>
+                          </thead>
+
+                          <tbody>
+                            {jobDetailList}
+                          </tbody>
+                      </table>                         
     }
+
+  
 
     return (
       <div className="animated fadeIn">
@@ -118,29 +124,14 @@ class Tables extends Component {
           <div className="col-lg-12">
             <div className="card">
               
-              <div className="card-header">
-                <i className="fa fa-align-justify"></i> Jobs Table
-              </div>
+              {cardHeader}
 
               <div className="card-block">
-                {resultDisplay}
-                {/*<ul className="pagination">
-                  <li className="page-item"><a className="page-link" href="#">Prev</a></li>
-                  <li className="page-item active">
-                    <a className="page-link" href="#">1</a>
-                  </li>
-                  <li className="page-item"><a className="page-link" href="#">2</a></li>
-                  <li className="page-item"><a className="page-link" href="#">3</a></li>
-                  <li className="page-item"><a className="page-link" href="#">4</a></li>
-                  <li className="page-item"><a className="page-link" href="#">Next</a></li>
-                </ul>*/}
+                {resultDisplay}             
               </div>
             </div>
           </div>
         </div>
-
-        
-
       </div>
 
     )

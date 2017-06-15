@@ -117,7 +117,6 @@ class Tables extends Component {
             showDeleteModal: true,
             userId: userId
         });
-        console.log(this.state.userId,"user id")
     }
 
     closeDeleteModal = () => {
@@ -288,8 +287,7 @@ class Tables extends Component {
                             <button type="button" className="btn btn-primary"
                                 onClick={ this.openUpdateUserModal.bind(this, user, "updateUser") } >
                                 <i className="fa fa-pencil fa-lg" />
-                            </button>
-                            
+                            </button>   
                         </td>
                     </tr>
 

@@ -3,7 +3,7 @@ import {INITIAL_STATE} from '../model';
 import {
     FETCH_JOBS, FETCH_JOBS_SUCCESS, FETCH_JOBS_FAILURE,
     RESET_JOBS_DATA,
-    SET_BOARD_TOKEN
+    SET_BOARD_TOKEN,SET_COMPANY_NAME
 } from '../actions/jobActions'
 
 const jobReducer = (state = INITIAL_STATE, action) => {
@@ -59,6 +59,16 @@ const jobReducer = (state = INITIAL_STATE, action) => {
                 job: {
                     ...state.job,
                     boardToken: action.boardToken
+                }
+            };
+            break;
+
+        case SET_COMPANY_NAME: 
+            state = {
+                ...state,
+                job: {
+                    ...state.job,
+                    companyName: action.companyName
                 }
             };
             break;

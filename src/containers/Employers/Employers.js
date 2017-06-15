@@ -2,8 +2,8 @@ import { connect } from 'react-redux';
 import { fetchEmployers, removeEmployer, saveEmployer,
         updateEmployer, refreshEmployer,
         refreshAllEmployers  } from '../../actions/employerActions';
+import { resetJobsData , setBoardToken, setCompanyName } from '../../actions/jobActions';
 
-import { resetJobsData , setBoardToken } from '../../actions/jobActions';
 import Employers from '../../views/Employers/';
 
 const mapStateToProps = (state) => {
@@ -43,6 +43,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         setBoardToken: (boardToken) => {
             dispatch(setBoardToken(boardToken));
+        },
+        setCompanyName: (companyName) => {
+            dispatch(setCompanyName(companyName));
         }
     }
 }

@@ -62,8 +62,8 @@ class Tables extends Component {
                 formType: "Update Employer"
             });
         }else{
-            this.setState({
 
+            this.setState({
                 showModal: true,
                 formType: "Create New Employer",
                 employer : {
@@ -144,7 +144,6 @@ class Tables extends Component {
 
         this.setState({
             employer : employer
-
         });
     }
 
@@ -154,7 +153,6 @@ class Tables extends Component {
 
         this.setState({
             employer : employer
-
         });
     }
 
@@ -164,7 +162,6 @@ class Tables extends Component {
 
         this.setState({
             employer : employer
-
         });
     }
 
@@ -224,7 +221,6 @@ class Tables extends Component {
 
         this.props.onUpdateEmployer(updatedEmployer, token.token);
         this.setState({ showModal: false});
-
     }
 
     handleRefresh = (employerId) => {
@@ -243,13 +239,16 @@ class Tables extends Component {
     }
 
     handleCompanyNameClick = (boardToken,companyName) =>{
-        hashHistory.push('/dashboard')
+        this.props.setBoardToken(boardToken)
+        this.props.setCompanyName(companyName)
+        hashHistory.push('/dashboard');
     }
     
     handleTotalJobsClick = (boardToken,companyName) => {
-        // this.props.resetJobsData();
-        this.props.setBoardToken(boardToken)
-        // hashHistory.push('/jobs')
+        this.props.resetJobsData();
+        this.props.setBoardToken(boardToken);
+        this.props.setCompanyName(companyName);
+        hashHistory.push('/jobs')
     }
 
   render() {
@@ -274,7 +273,11 @@ class Tables extends Component {
 
         if(this.props.user.detail.superUser === 1){
 
-            addEmployerButton = <span className="add-employer-employer"><button value="addEmployer" type="button" onClick={ this.openFormModal } className="btn btn-primary add-employer"><i className="glyphicon glyphicon-plus" /> Add Employer</button></span>
+            addEmployerButton = <span className="add-employer-employer">
+                                    <button value="addEmployer" type="button" onClick={ this.openFormModal } className="btn btn-primary add-employer">
+                                        <i className="glyphicon glyphicon-plus" /> Add Employer
+                                    </button>
+                                </span>
         }
 
         var  button = null;
@@ -339,8 +342,8 @@ class Tables extends Component {
                             </button>
                         </td>
                     </tr>
-                return employerObject;
 
+                return employerObject;
             }, this);
         }
 
@@ -510,7 +513,6 @@ class Tables extends Component {
                 </div>
             </div>
         </div>
-
     )
   }
 }

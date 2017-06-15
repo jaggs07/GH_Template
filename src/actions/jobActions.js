@@ -5,6 +5,7 @@ export const FETCH_JOBS_FAILURE = 'FETCH_JOBS_FAILURE';
 export const RESET_JOBS_DATA = 'RESET_JOBS_DATA';
 
 export const SET_BOARD_TOKEN = 'SET_BOARD_TOKEN';
+export const SET_COMPANY_NAME = 'SET_COMPANY_NAME';
 
 export function fetchJobs(boardToken) {
 
@@ -62,5 +63,11 @@ export function resetJobsData() {
 export function setBoardToken(boardToken) {
     return function (dispatch) {
         dispatch({type: SET_BOARD_TOKEN, boardToken: boardToken});    
+    }
+}
+
+export function setCompanyName(companyName) {
+    return function (dispatch) {
+        dispatch({type: SET_COMPANY_NAME, companyName: companyName});    
     }
 }
