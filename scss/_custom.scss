@@ -82,6 +82,38 @@ body:not(.top-nav) {
   }
 }
 
-.table-add-button {
-  float: right;
+.animated {
+    .row {
+        .col-lg-12 {
+            .card {
+
+                .card-header {
+                    .btn {
+                       float: right
+                    }
+                }
+
+                .card-block {
+                    .table {
+                        .btn {
+                            float: right;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+.modal-employer {
+    .form-wrapper {
+        .form-group {
+            .col-sm-9 {
+                .Select {
+                    text-transform: capitalize;
+                }
+            }
+        }
+    }
 }

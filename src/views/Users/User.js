@@ -280,13 +280,16 @@ class Tables extends Component {
                         <td >{ user.companyName }</td>
 
                         <td>
-                            <span title="Edit" className="fa fa-pencil-square fa-lg mt-4" 
-                                    onClick={this.openUpdateUserModal.bind(this, user, "updateUser")}>
-                            </span>&nbsp;
+                            <button type="button" className="btn btn-danger"
+                                onClick={ this.openDeleteModal.bind(this, user.id) } >
+                                <i className="fa fa-trash-o fa-lg" />
+                            </button>
 
-                            <span title="Delete" className="fa fa-trash-o fa-lg mt-4"  
-                                onClick={this.openDeleteModal.bind(this, user.id)}>
-                            </span>
+                            <button type="button" className="btn btn-primary"
+                                onClick={ this.openUpdateUserModal.bind(this, user, "updateUser") } >
+                                <i className="fa fa-pencil fa-lg" />
+                            </button>
+                            
                         </td>
                     </tr>
 
@@ -325,7 +328,7 @@ class Tables extends Component {
 
             <NotificationSystem ref="notificationSystem" style={notificationStyle}/>
 
-            <Modal isOpen={this.state.showModal} onHide={this.closeFormModal} toggle={this.closeFormModal} className={'modal-info ' + this.props.className}>
+            <Modal isOpen={this.state.showModal} onHide={this.closeFormModal} toggle={this.closeFormModal} className="modal-info">
                 <ModalHeader toggle={this.closeFormModal}>{this.state.formType}</ModalHeader>
                 <ModalBody>
                 <div className="form-wrapper">
@@ -390,7 +393,7 @@ class Tables extends Component {
                 </ModalFooter>
             </Modal>    
 
-            <Modal isOpen={this.state.showDeleteModal} toggle={this.closeDeleteModal} className={'modal-sm ' + this.props.className}>
+            <Modal isOpen={this.state.showDeleteModal} toggle={this.closeDeleteModal} className="modal-sm">
                 <ModalBody>
                     Are you sure you want to delete this user?<br/>
                     This can not be undone.
@@ -410,7 +413,7 @@ class Tables extends Component {
                             <i className="fa fa-align-justify"></i> Users Table
                             <button type="button" className="btn btn-primary table-add-button"
                                 onClick={ this.openFormModal.bind(this, "addUser") } >
-                                <i className="glyphicon glyphicon-plus" />Add User
+                                <i className="fa fa-plus fa-lg" />&nbsp; Add User
                             </button>
                         </div>
 

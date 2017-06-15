@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import NotificationSystem from 'react-notification-system';
-import Dropdown from 'react-drop-down'
-import Modal from 'react-bootstrap/lib/Modal';
-import Button from 'react-bootstrap/lib/Button';
 import _ from 'lodash';
 import Cookie from 'universal-cookie';
 import { hashHistory } from 'react-router'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import Select from 'react-select';
 
 const cookies = new Cookie();
 
@@ -28,27 +27,35 @@ class Tables extends Component {
                 product_image: '',
                 accountType: 'client',
                 atsType: 'greenhouse',
-            }
+            },
+            accountTypeOptions: [
+                 { value: 'client', label: 'client' },
+                 { value: 'prospect', label: 'prospect' }
+            ],
+            atsOptions: [
+                 { value: 'greenhouse', label: 'greenhouse' },
+                 { value: 'other', label: 'other' }
+            ]
         }
     }
 
-     componentWillMount = () => {
-      var token = cookies.get('token');
-      this.props.fetchEmployers(token.token);
+    componentWillMount = () => {
+        var token = cookies.get('token');
+        this.props.fetchEmployers(token.token);
     }
 
     displayNotification(message, level = 'error') {
         this.refs.notificationSystem.addNotification({
-        message: message,
-        level: level,
-        dismissible: false,
-        autoDismiss: 3,
-        position: 'tc'
+            message: message,
+            level: level,
+            dismissible: false,
+            autoDismiss: 3,
+            position: 'tc'
         });
     }
 
-    openFormModal = (e) => {
-        if(e.target.value === "updateEmployer"){
+    openFormModal = (formType) => {
+        if(formType === "updateEmployer"){
 
             this.setState({
                 showModal: true,
@@ -91,10 +98,10 @@ class Tables extends Component {
         }
     }
 
-    openDeleteModal = (e) => {
+    openDeleteModal = (employerId) => {
         this.setState({
             showDeleteModal: true,
-            employerId: e.target.value
+            employerId: employerId
         });
     }
 
@@ -189,7 +196,7 @@ class Tables extends Component {
         });
     }
 
-    openUpdateEmployerModal = (employer, e) => {
+    openUpdateEmployerModal = (employer, formType) => {
         var tmpEmployer = this.state.employer;
 
         tmpEmployer.companyName = employer.companyName;
@@ -205,7 +212,7 @@ class Tables extends Component {
             employer : tmpEmployer,
             employerId: employer.id
         });
-        this.openFormModal(e);
+        this.openFormModal(formType);
     }
 
     handleUpdateEmployer = () => {
@@ -220,9 +227,9 @@ class Tables extends Component {
 
     }
 
-    handleRefresh = (id) => {
+    handleRefresh = (employerId) => {
         var token = cookies.get('token');
-        this.props.onRefreshEmployer(id, token.token);
+        this.props.onRefreshEmployer(employerId, token.token);
     }
 
     handleRefreshAllClick = () => {
@@ -231,8 +238,8 @@ class Tables extends Component {
     }
 
     handleBoardTokenClick = (boardToken) => {
-      var boardTokenUrl = "https://api.greenhouse.io/v1/boards/" + boardToken + "/jobs";
-      window.open(boardTokenUrl);
+        var boardTokenUrl = "https://api.greenhouse.io/v1/boards/" + boardToken + "/jobs";
+        window.open(boardTokenUrl);
     }
 
     handleCompanyNameClick = (boardToken,companyName) =>{
@@ -273,9 +280,9 @@ class Tables extends Component {
         var  button = null;
 
         if(this.state.formType === "Create New Employer"){
-            button = <Button onClick={this.handleSaveEmployer} bsStyle="primary">Save</Button>
+            button = <Button onClick={this.handleSaveEmployer} color="primary">Save</Button>
         }else{
-            button = <Button onClick={this.handleUpdateEmployer}  bsStyle="primary">Update</Button>
+            button = <Button onClick={this.handleUpdateEmployer}  color="primary">Update</Button>
         }
 
         var employerList = this.props.data.data;
@@ -289,16 +296,47 @@ class Tables extends Component {
                 var employerObject = 
                     <tr key={i} className="header">
 
-                        <td ><div onClick={this.handleCompanyNameClick.bind(this,employer.boardToken,employer.companyName)}>{ employer.companyName }</div></td>
-                        <td > <a href={employer.careersUrl} target="_blank" > { employer.careersUrl.substring(0,35) } </a></td>
-                        <td > <a href={ employer.linkedInUrl } target="_blank" > { employer.linkedInUrl.substring(0,35) } </a></td>
-                        <td > <a href="" onClick={this.handleBoardTokenClick.bind(this,employer.boardToken)} target="_blank" > { employer.boardToken } </a></td>
+                        <td >
+                            <div 
+                                onClick={this.handleCompanyNameClick.bind(this,employer.boardToken,employer.companyName)}>
+                                { employer.companyName }
+                            </div>
+                        </td>
+                        <td > 
+                            <a href={employer.careersUrl} target="_blank" > 
+                                { employer.careersUrl.substring(0,35) } 
+                            </a>
+                        </td>
+                        <td > 
+                            <a href={ employer.linkedInUrl } target="_blank" >
+                                { employer.linkedInUrl.substring(0,35) } 
+                            </a>
+                        </td>
+                        <td > 
+                            <a href="" onClick={this.handleBoardTokenClick.bind(this,employer.boardToken)} target="_blank" > 
+                                { employer.boardToken } 
+                            </a>
+                        </td>
                         <td >  { employer.accountType } </td>
-                        <td > <div onClick={this.handleTotalJobsClick.bind(this,employer.boardToken, employer.companyName)} > { employer.totalJobs } </div></td>
+                        <td > 
+                            <div onClick={this.handleTotalJobsClick.bind(this,employer.boardToken, employer.companyName)} > 
+                                { employer.totalJobs } 
+                            </div>
+                        </td>
                         <td>
-                            <span title="Edit" value="updateEmployer" className="fa fa-pencil-square fa-lg mt-4" onClick={this.openUpdateEmployerModal.bind(this, employer)}></span>&nbsp;
-                            <span title="Refresh" className="fa fa-refresh fa-lg mt-4" onClick={this.handleRefresh.bind(this, employer.id)}></span>&nbsp;
-                            <span title="Delete" className="fa fa-trash-o fa-lg mt-4" value={employer.id} onClick={this.openDeleteModal}></span>
+                            
+                            <button title="Delete" type="button" className="btn btn-danger"
+                                onClick={ this.openDeleteModal.bind(this, employer.id) } >
+                                <i className="fa fa-trash-o fa-lg" />
+                            </button>
+                            <button title="Refresh" type="button" className="btn btn-info"
+                                onClick={ this.handleRefresh.bind(this, employer.id) } >
+                                <i className="fa fa-refresh fa-lg" />
+                            </button>
+                            <button title="Update" type="button" className="btn btn-info"
+                                onClick={ this.openUpdateEmployerModal.bind(this, employer, "updateEmployer") } >
+                                <i className="fa fa-pencil-square fa-lg" />
+                            </button>
                         </td>
                     </tr>
                 return employerObject;
@@ -324,36 +362,154 @@ class Tables extends Component {
                             </tr>
                             </thead>
                             <tbody>
-                            {employerDetailList}
+                                {employerDetailList}
                             </tbody>
                         </table>
         }else{
 
-            resultDisplay = <div className="employer-container">
-                                <div className="add-employer-button">
-                                    <button value="addEmployer" type="button" onClick={ this.openFormModal } className="btn btn-primary add-employer">Add Employer</button>
-                                </div>
-                            </div>
+            resultDisplay = 
+                <div className="employer-container">
+                    <div className="add-employer-button">
+                        <button value="addEmployer" 
+                                type="button" 
+                                onClick={ this.openFormModal } 
+                                className="btn btn-primary add-employer">
+                            Add Employer
+                        </button>
+                    </div>
+                </div>
         }
     return (
-      <div className="animated fadeIn">
+        <div className="animated fadeIn">
 
-        <div className="row">
-          <div className="col-lg-12">
-            <div className="card">
-              
-              <div className="card-header">
-                <i className="fa fa-align-justify"></i> Employers Table
-              </div>
+            <NotificationSystem ref="notificationSystem" style={notificationStyle}/>
 
-              <div className="card-block">
-                {resultDisplay}
-               
-              </div>
+            <Modal isOpen={this.state.showModal} onHide={this.closeFormModal} toggle={this.closeFormModal} className="modal-lg modal-info modal-employer">
+                <ModalHeader toggle={this.closeFormModal}>{this.state.formType}</ModalHeader>
+                <ModalBody>
+                    <div className="form-wrapper">
+
+                        <div className="form-group row">
+                            <label htmlFor="company-name-" className="col-sm-3 col-form-label">Company
+                                Name</label>
+                            <div className="col-sm-9 company-name-field">
+                                <input className="form-control" required="required"
+                                        onChange={ this.handleChangeCompanyName }
+                                        value={this.state.employer.companyName} type="text" id="companyName"/>
+                            </div>
+                        </div>
+
+                        <div className="form-group row">
+                            <label htmlFor="domain-name" className="col-sm-3 col-form-label">Domain Url</label>
+                            <div className="col-sm-9 domain-name-field">
+                                <input className="form-control" onChange={ this.handleChangeDomainUrl }
+                                        value={this.state.employer.domainUrl} type="text" id="domain"/>
+                            </div>
+                        </div>
+
+                        <div className="form-group row">
+                            <label htmlFor="careers-page" className="col-sm-3 col-form-label">Careers
+                                Page</label>
+                            <div className="col-sm-9 careers-page-field">
+                                <input className="form-control" onChange={ this.handleChangeCareersUrl }
+                                        value={this.state.employer.careersUrl} type="text" id="careersPage"/>
+                            </div>
+                        </div>
+
+                        <div className="form-group row">
+                            <label htmlFor="linkedin-page" className="col-sm-3 col-form-label">Linkedin
+                                Page</label>
+                            <div className="col-sm-9 linkedin-page-name-field">
+                                <input className="form-control" onChange={ this.handleChangeLinkedInUrl }
+                                        value={this.state.employer.linkedInUrl} type="text" id="linkedInPage"/>
+                            </div>
+                        </div>
+
+                        <div className="form-group row">
+                            <label htmlFor="gh-board-token" className="col-sm-3 col-form-label">GH Board
+                                Token</label>
+                            <div className="col-sm-9 gh-board-token-field">
+                                <input className="form-control" onChange={ this.handleChangeBoardToken }
+                                        value={this.state.employer.boardToken} type="text" id="ghBoardToken"/>
+                            </div>
+                        </div>
+
+                        <div className="form-group row">
+                            <label htmlFor="product-image" className="col-sm-3 col-form-label">Product Image</label>
+                            <div className="col-sm-9 gh-product-image-field">
+                                <input className="form-control" onChange={ this.handleChangeProductImage }
+                                        value={this.state.employer.productImage} type="text" id="productImage"/>
+                            </div>
+                        </div>
+
+                        <div className="form-group row">
+                            <label htmlFor="account-type" className="col-sm-3 col-form-label">Account Type</label>
+                            <div className="col-sm-9 account-type">
+                                <Select
+                                    name="form-field-name"
+                                    value={this.state.employer.accountType}
+                                    options={this.state.accountTypeOptions}
+                                    onChange={this.handleAccountTypeChange}
+                                    searchable={false}
+                                    />  
+                            </div>
+
+                        </div>
+
+                        <div className="form-group row">
+                            <label htmlFor="account-type" className="col-sm-3 col-form-label">ATS</label>
+                            <div className="col-sm-9 ats-type">
+                                <Select
+                                    name="form-field-name"
+                                    value={this.state.employer.atsType}
+                                    options={this.state.atsOptions}
+                                    onChange={this.handleATSTypeChange}
+                                    searchable={false}
+
+                                    />           
+                            </div>
+
+                        </div>
+
+                    </div>
+                </ModalBody>
+                <ModalFooter>
+                    {button}
+                    <Button color="secondary" onClick={this.closeFormModal}>Cancel</Button>
+                </ModalFooter>
+            </Modal>    
+
+            <Modal isOpen={this.state.showDeleteModal} toggle={this.closeDeleteModal} className="modal-sm">
+                <ModalBody>
+                    Are you sure you want to delete?<br/>
+                    This can not be undone.
+                </ModalBody>
+                <ModalFooter>
+                    <Button color="primary" onClick={this.handleDeleteConfirmClick}>Delete</Button>{' '}
+                    <Button color="secondary" onClick={this.closeDeleteModal}>Cancel</Button>
+                </ModalFooter>
+            </Modal> 
+
+            <div className="row">
+                <div className="col-lg-12">
+                    <div className="card">
+                
+                        <div className="card-header">
+                            <i className="fa fa-align-justify"></i> Employers Table
+                            <button type="button" className="btn btn-primary table-add-button"
+                                    onClick={ this.openFormModal.bind(this, "addEmployer") } >
+                                <i className="fa fa-plus fa-lg" />&nbsp; Add Employer
+                            </button>
+                        </div>
+
+                        <div className="card-block">
+                            {resultDisplay}
+                    
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
 
     )
   }

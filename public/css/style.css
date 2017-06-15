@@ -14169,8 +14169,14 @@ body:not(.top-nav) .sidebar .nav .nav-item .nav-link i, body:not(.top-nav) .side
   color: #9fabb8;
   border-right: 1px solid #dbdee0; }
 
-.table-add-button {
+.animated .row .col-lg-12 .card .card-header .btn, .animated .row .col-lg-12 .card .card-header .fc button, .fc .animated .row .col-lg-12 .card .card-header button {
   float: right; }
+
+.animated .row .col-lg-12 .card .card-block .table .btn, .animated .row .col-lg-12 .card .card-block .table .fc button, .fc .animated .row .col-lg-12 .card .card-block .table button {
+  float: right; }
+
+.modal-employer .form-wrapper .form-group .col-sm-9 .Select {
+  text-transform: capitalize; }
 
 .table-add-button {
   float: right; }
