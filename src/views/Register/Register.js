@@ -163,7 +163,7 @@ class Register extends Component {
 
                                 <div className="input-group mb-3">
                                     <span className="input-group-addon">@</span>
-                                    <input type="text" className="form-control" 
+                                    <input type="email" className="form-control" 
                                             value={this.state.email} 
                                             onChange={this.handleEmailChange} 
                                             placeholder="Email"

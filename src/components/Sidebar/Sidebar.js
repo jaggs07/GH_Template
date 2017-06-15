@@ -32,11 +32,11 @@ class Sidebar extends Component {
             </li>
 
             <li className="nav-item">
-              <NavLink to={'/employers'} className="nav-link" activeClassName="active"><i className="icon-pie-chart"></i> Employers</NavLink>
+              <NavLink to={'/employers'} className="nav-link" activeClassName="active"><i className="fa fa-building"></i> Employers</NavLink>
             </li>
 
             <li className="nav-item">
-              <NavLink to={'/jobs'} className="nav-link" activeClassName="active"><i className="icon-pie-chart"></i> Jobs</NavLink>
+              <NavLink to={'/jobs'} className="nav-link" activeClassName="active"><i className="fa fa-suitcase"></i> Jobs</NavLink>
             </li>
 
           </ul>

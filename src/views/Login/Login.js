@@ -115,7 +115,7 @@ class Login extends Component {
 
                                         <div className="input-group mb-3">
                                             <span className="input-group-addon"><i className="icon-user"></i></span>
-                                            <input type="text" className="form-control" onChange={this.handleEmailChange} placeholder="Username" />
+                                            <input type="email" className="form-control" onChange={this.handleEmailChange} placeholder="Username" />
                                         </div>
 
                                         <div className="input-group mb-4">
