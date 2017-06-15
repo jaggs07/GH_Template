@@ -117,3 +117,22 @@ body:not(.top-nav) {
         }
     }
 }
+
+.app {
+    .container {
+        .row {
+            .col-md-6 {
+                .card {
+                    .card-block {
+                        button {
+                            margin-top: 15px;
+                        }
+                        .Select {
+                            text-transform: capitalize;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -14178,5 +14178,11 @@ body:not(.top-nav) .sidebar .nav .nav-item .nav-link i, body:not(.top-nav) .side
 .modal-employer .form-wrapper .form-group .col-sm-9 .Select {
   text-transform: capitalize; }
 
+.app .container .row .col-md-6 .card .card-block button {
+  margin-top: 15px; }
+
+.app .container .row .col-md-6 .card .card-block .Select {
+  text-transform: capitalize; }
+
 .table-add-button {
   float: right; }

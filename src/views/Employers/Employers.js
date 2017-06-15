@@ -368,20 +368,8 @@ class Tables extends Component {
                                 {employerDetailList}
                             </tbody>
                         </table>
-        }else{
-
-            resultDisplay = 
-                <div className="employer-container">
-                    <div className="add-employer-button">
-                        <button value="addEmployer" 
-                                type="button" 
-                                onClick={ this.openFormModal } 
-                                className="btn btn-primary add-employer">
-                            Add Employer
-                        </button>
-                    </div>
-                </div>
         }
+        
     return (
         <div className="animated fadeIn">
 
