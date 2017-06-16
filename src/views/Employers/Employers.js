@@ -40,8 +40,16 @@ class Tables extends Component {
     }
 
     componentWillMount = () => {
+
         var token = cookies.get('token');
-        this.props.fetchEmployers(token.token);
+
+        if(typeof token === 'undefined'){
+            hashHistory.push('/login');
+        }else{
+            var token = cookies.get('token');
+            this.props.fetchEmployers(token.token);
+        }
+        
     }
 
     displayNotification(message, level = 'error') {

@@ -4,7 +4,7 @@ import _ from 'lodash';
 import NotificationSystem from 'react-notification-system';
 import Select from 'react-select';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-
+import {hashHistory} from 'react-router';
 const cookies = new Cookie();
 
 const ROOT_URL = window.location.hostname === 'localhost' ? 'http://localhost:8090/api/' : 'http://54.234.23.64:8090/api/';
@@ -32,7 +32,15 @@ class Tables extends Component {
     componentWillMount = () => {
 
         var token = cookies.get('token');
-        this.props.fetchUsers(token.token);
+
+        if(typeof token === 'undefined'){
+            hashHistory.push('/login');
+        }else{
+            var token = cookies.get('token');
+            this.props.fetchUsers(token.token);
+        }
+
+        
     }
 
      displayNotification(message, level = 'error') {

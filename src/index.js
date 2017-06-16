@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 
 // Containers
-import Home from './views/Home/'
+import Home from './containers/Home/'
 import Login from './containers/Login/'
 import Register from './containers/Register/'
 

@@ -18,6 +18,7 @@ const mapDispatchToProps = (dispatch) => {
         resetUserData: () => {
             dispatch(resetUser())
         }
+
     }
 }
 

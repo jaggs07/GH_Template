@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _ from "lodash";
 import Cookie from 'universal-cookie';
-
+import {hashHistory} from 'react-router';
 const cookies = new Cookie();
 
 const ROOT_URL ='http://localhost:8090/api/';
@@ -24,6 +24,10 @@ class Tables extends Component {
     }
 
     var token = cookies.get('token');
+
+    if(typeof token === 'undefined'){
+        hashHistory.push('/login');
+    }else{
 
     if(token.email !== 'rake@reignger.com' && ('id' in this.props.user.detail) ){
 
@@ -56,6 +60,7 @@ class Tables extends Component {
         .catch((error) => {
             return {options : [{ value: 'Company fetch error...', label: 'Company fetch error...' }]}
         });
+    }
     }
   }
 

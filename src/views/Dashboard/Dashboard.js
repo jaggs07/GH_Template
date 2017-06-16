@@ -286,11 +286,7 @@ class Dashboard extends Component {
 
         var token = cookies.get('token');
 
-        if(typeof token !== 'undefined'){
-
-            this.props.userDetail(token.token);
-            
-        }else{
+        if(typeof token === 'undefined'){
             hashHistory.push('/login');
         }
     }
@@ -302,6 +298,7 @@ class Dashboard extends Component {
   }
 
   render() {
+    
     return (
       <div className="animated fadeIn">
         <div className="row">

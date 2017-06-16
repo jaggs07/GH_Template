@@ -5,14 +5,30 @@ import Header from '../../containers/Header/';
 import Sidebar from '../../components/Sidebar/';
 import Breadcrumb from '../../components/Breadcrumb/';
 import Footer from '../../components/Footer/';
+import { hashHistory } from 'react-router'
+import Cookie from 'universal-cookie';
 
 import Dashboard from '../../containers/Dashboard/'
 import Users from '../../containers/Users/'
 import Employers from '../../containers/Employers/'
 import Jobs from '../../containers/Jobs/'
 
+const cookies = new Cookie();
 
 class Home extends Component {
+
+      componentWillMount = () => {
+
+        var token = cookies.get('token');
+
+        if(typeof token !== 'undefined'){
+
+            this.props.userDetail(token.token);
+        }else{
+            hashHistory.push('/login');
+        }
+    }
+
 
   render() {
     return (
