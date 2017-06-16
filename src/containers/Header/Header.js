@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { resetUserData ,updateUserAccount, changePassword, resetErrorMessage} from '../../actions/userActions';
+import { resetUserData ,updateUserAccount, changePassword, resetUser, resetErrorMessage} from '../../actions/userActions';
 import { resetJobsData } from '../../actions/jobActions';
 import { resetEmployerData } from '../../actions/employerActions';
 
@@ -31,7 +31,10 @@ const mapDispatchToProps = (dispatch) => {
         },
         resetErrorMessage: () => {
             dispatch(resetErrorMessage());
-        }
+        },
+        resetUser: () => {
+            dispatch(resetUser());
+        },
     }
 }
 

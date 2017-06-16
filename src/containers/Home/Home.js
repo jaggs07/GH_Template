@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { userInfo } from '../../actions/userActions';
 
-import Home from '../../views/Dashboard/';
+import Home from '../../views/Home/';
 
 const mapStateToProps = (state) => {
     return {

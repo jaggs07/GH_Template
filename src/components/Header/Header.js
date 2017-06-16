@@ -31,7 +31,6 @@ class Header extends Component {
 	}
 
 	handleLogoutClick = (e) => {
-		console.log("logout")
 		e.preventDefault();
 
 		this.props.resetUserData();
@@ -62,7 +61,8 @@ class Header extends Component {
         this.setState({
             activeTab: tab
         });
-        }
+    }
+    this.props.resetUser();
     }
 
 	toggle =() => {
@@ -254,6 +254,22 @@ class Header extends Component {
                 </FormGroup>
             </div>
 
+               var innerButton = "Save"
+        
+        var style = {backgroundColor:"#36a9e1", color: "#fff"}
+
+        if (this.props.user.loading) {
+          innerButton = <div className="spinner" />
+
+        } else if (this.props.user.updateSuccess && !this.props.user.passwordChangeSuccess) {
+
+          innerButton = "Saved!";
+          style = {backgroundColor: "#1C2841", color: "#fff"}
+        } else if (!this.props.user.updateSuccess && this.props.user.passwordChangeSuccess) {
+
+          innerButton = "Saved!";
+          style = {backgroundColor: "#1C2841", color: "#fff"}
+        }
 
 
 		return (
@@ -296,7 +312,7 @@ class Header extends Component {
 						
 					</ModalBody>
 					<ModalFooter>
-						<Button color="primary" onClick={this.handleSaveForm}>Save</Button>						
+						<Button style={style} onClick={this.handleSaveForm}>{innerButton}</Button>						
 						<Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
 					</ModalFooter>
 				</Modal>
