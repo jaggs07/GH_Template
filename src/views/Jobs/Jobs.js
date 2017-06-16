@@ -76,8 +76,8 @@ class Tables extends Component {
           var updatedDate = job.updated_at.split("T")[0];
 
           var jobObject = <tr key={i} className="header">
-                            <td title={job.title}>{job.title.substring(0,30)}</td>
-                            <td >{job.location.name}</td>
+                            <td title={job.title}>{job.title.substring(0,25)}</td>
+                            <td title={job.location}>{job.location.name.substring(0,25)}</td>
                             <td >{updatedDate}</td>
                           </tr>
           return jobObject;

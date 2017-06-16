@@ -218,7 +218,7 @@ class Tables extends Component {
 
         updatedEmployer.id = this.state.employerId;
         _.merge(updatedEmployer, this.state.employer);
-        
+
         if(updatedEmployer.companyName === ''){
             this.displayNotification("Enter the compnay name");
         }else{
@@ -294,23 +294,23 @@ class Tables extends Component {
 
                         <td >
                             <div 
-                                onClick={this.handleCompanyNameClick.bind(this,employer.boardToken,employer.companyName)}>
-                                { employer.companyName }
+                                title={employer.companyName} onClick={this.handleCompanyNameClick.bind(this,employer.boardToken,employer.companyName)}>
+                                { employer.companyName.substring(0,10) }
                             </div>
                         </td>
                         <td > 
-                            <a href={employer.careersUrl} target="_blank" > 
-                                { employer.careersUrl.substring(0,35) } 
+                            <a title={employer.careersUrl} href={employer.careersUrl} target="_blank" > 
+                                { employer.careersUrl.substring(0,25) } 
                             </a>
                         </td>
                         <td > 
-                            <a href={ employer.linkedInUrl } target="_blank" >
-                                { employer.linkedInUrl.substring(0,35) } 
+                            <a title={employer.linkedInUrl} href={ employer.linkedInUrl } target="_blank" >
+                                { employer.linkedInUrl.substring(0,25) } 
                             </a>
                         </td>
                         <td > 
-                            <a href="" onClick={this.handleBoardTokenClick.bind(this,employer.boardToken)} target="_blank" > 
-                                { employer.boardToken } 
+                            <a title={employer.boardToken} href="" onClick={this.handleBoardTokenClick.bind(this,employer.boardToken)} target="_blank" > 
+                                { employer.boardToken.substring(0,15) } 
                             </a>
                         </td>
                         <td >  { employer.accountType } </td>
