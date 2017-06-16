@@ -7,6 +7,8 @@ import FormGroup from 'react-bootstrap/lib/FormGroup';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import classnames from 'classnames';
+import { findDOMNode } from 'react-dom';
+import NotificationSystem from 'react-notification-system';
 
 const cookies = new Cookie();
 
@@ -47,7 +49,11 @@ class Header extends Component {
     toggleModal = () => {
 
         this.setState({
-            showModal: !this.state.showModal
+            showModal: !this.state.showModal,
+            user: {
+                firstName: "",
+                lastName: ""
+            }
         });
     }
 
@@ -80,7 +86,111 @@ class Header extends Component {
 		document.body.classList.toggle('aside-menu-hidden');
 	}
 
+    componentWillReceiveProps = (nextProps) => {
+        if( !nextProps.user.passwordChangeSuccess && nextProps.user.error.error ){
+                this.displayNotification(nextProps.user.error.error);
+                this.props.resetErrorMessage();
+        }
+    }
+
+    displayNotification(message, level = 'error') {
+        this.refs.notificationSystem.addNotification({
+            message: message,
+            level: level,
+            dismissible: false,
+            autoDismiss: 3,
+            position: 'tc'
+        });
+    }
+
+    handleFirstNameChange = (e) => {
+
+        var user = this.state.user;
+
+        user.firstName = e.target.value;
+        this.setState({
+            user : user
+        });
+    }
+
+    handleLastNameChange = (e) => {
+
+        var user = this.state.user;
+
+        user.lastName = e.target.value;
+        this.setState({
+            user : user
+        });
+    }
+
+    handleSaveForm = (e) => {
+         e.preventDefault();
+
+         if( this.state.activeTab === '1' ){
+             this.handleUpdateUserAccount();
+         }else if( this.state.activeTab === '2' ){
+             this.handlePasswordUpdate();
+         }
+    }
+
+    handleUpdateUserAccount = () => {
+
+        var user = this.state.user;
+        user.id = this.props.user.detail.id;
+
+        var token = cookies.get('token')
+        if(typeof user.firstName === 'undefined' || user.firstName === '' ){
+            this.displayNotification('Empty First Name');
+            return
+        }
+        if(typeof user.lastName === 'undefined' || user.lastName === ''){
+            this.displayNotification('Empty Last Name');
+            return
+        }else{
+            this.props.updateUserAccount(user, token.token);
+        }
+
+    }
+
+    handlePasswordUpdate = () => {
+
+        var token = cookies.get('token');
+
+        let currentPassword = findDOMNode(this.refs.currentPassword).value
+        let newPassword = findDOMNode(this.refs.newPassword).value
+        let confirmPassword = findDOMNode(this.refs.confirmPassword).value
+
+        console.log(currentPassword +" " + newPassword)
+
+        if (currentPassword.trim().length === 0) {
+            this.displayNotification('Check current password');
+            return
+        }else{
+            this.props.changePassword(currentPassword,newPassword, confirmPassword, this.props.user.detail.id, token.token );
+        }
+
+    }
+
 	render() {
+
+        var notificationStyle = {
+            NotificationItem: {
+                DefaultStyle: {
+                    boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.1)',
+                    borderRadius: '3px',
+                },
+                error: {
+                    border: 'none',
+                    backgroundColor: '#d73b41',
+                    color: '#fff'
+                },
+                info: {
+                    border: 'none',
+                    backgroundColor: '#4eae3e',
+                    color: '#fff'
+                },
+            }
+        }
 
 
         var editAccountForm = 
@@ -148,9 +258,11 @@ class Header extends Component {
 
 		return (
 			<header className="app-header navbar">
+
 				<Modal isOpen={this.state.showModal} onHide={this.toggleModal} toggle={this.toggleModal} className="modal-dailog">
 
 					<ModalBody>
+                        <NotificationSystem ref="notificationSystem" style={notificationStyle} />
                         <div className="settings-user-email">
                                 <strong> Email: </strong> {this.props.user.detail.email}
                         </div>
@@ -184,7 +296,7 @@ class Header extends Component {
 						
 					</ModalBody>
 					<ModalFooter>
-						<Button color="primary" >Save</Button>						
+						<Button color="primary" onClick={this.handleSaveForm}>Save</Button>						
 						<Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
 					</ModalFooter>
 				</Modal>

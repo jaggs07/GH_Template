@@ -388,6 +388,9 @@ class Tables extends Component {
             <Modal isOpen={this.state.showModal} onHide={this.closeFormModal} toggle={this.closeFormModal} className="modal-lg modal-info modal-employer">
                 <ModalHeader toggle={this.closeFormModal}>{this.state.formType}</ModalHeader>
                 <ModalBody>
+
+                    <NotificationSystem ref="notificationSystem" style={notificationStyle}/>
+
                     <div className="form-wrapper">
 
                         <div className="form-group row">
