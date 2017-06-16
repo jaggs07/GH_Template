@@ -31,6 +31,8 @@ class Tables extends Component {
 
     if(token.email !== 'rake@reignger.com' && ('id' in this.props.user.detail) ){
 
+      console.log("inside if");
+
         let id = this.props.user.detail.id;
 
         fetch(ROOT_URL + 'user/' + id + '/employer', {
@@ -45,6 +47,7 @@ class Tables extends Component {
         .then((responseData) => {
 
               if(responseData.error){
+                console.log("inside error");
 		               this.setState({
                         boardToken: ''
                   });
@@ -53,6 +56,7 @@ class Tables extends Component {
                         boardToken: responseData.boardToken,
                         companyName: responseData.companyName
                   }, function() {
+                    console.log(this.state.boardToken,"token")
                     this.props.fetchJobs(this.state.boardToken)
                   });
 	            }

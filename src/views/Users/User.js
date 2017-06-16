@@ -54,6 +54,7 @@ class Tables extends Component {
     }
 
     openFormModal = (formType) => {
+        
         if(formType === "updateUser"){
 
             this.setState({
@@ -88,9 +89,7 @@ class Tables extends Component {
         return re.test(email)
     }
 
-    handleSaveUser = () => {
-
-        var token = cookies.get('token');
+    validateForm = () => {
 
         var firstName = this.state.user.firstName;
         var lastName = this.state.user.lastName;
@@ -112,9 +111,21 @@ class Tables extends Component {
             this.displayNotification("Password must contain minimum 6 characters");
         }else if (password.search(/[0-9]/) < 0) {
             this.displayNotification("Password must contain minimum single digit characters");
-        }else if(companyName.length === 0){
+        }else if(companyName === 'undefined'){
             this.displayNotification("Select Company");
+        }else if(companyName.length === 0){
+            this.displayNotification("Select Company");        
         }else{
+            return true;
+        }
+        return false;
+    }
+
+    handleSaveUser = () => {
+
+        var token = cookies.get('token');
+
+       if(this.validateForm()){
             this.props.createUser(this.state.user,token.token);
             this.setState({ showModal: false});
         }
@@ -217,9 +228,14 @@ class Tables extends Component {
         var updatedUser = {};
 
         updatedUser.id = this.state.userId;
-        _.merge(updatedUser, this.state.user);
-        this.props.updateUser(updatedUser, token.token);
-        this.setState({ showModal: false});
+
+        if(this.validateForm()){
+             _.merge(updatedUser, this.state.user);
+            this.props.updateUser(updatedUser, token.token);
+            this.setState({ showModal: false});
+        }
+
+       
     }
 
 	getOptions = () => {

@@ -48,7 +48,9 @@ const jobReducer = (state = INITIAL_STATE, action) => {
                     ...state.job,
                     loading: false,
                     data: [],
-                    error: {}
+                    error: {},
+                    boardToken: '',
+                    companyName: ''
                 }
             };
             break;

@@ -6,6 +6,7 @@ import Jobs from '../../views/Jobs/';
 const mapStateToProps = (state) => {
     return {
         job: state.jobReducer.job,
+        user: state.userReducer.user
     }
 }
 
