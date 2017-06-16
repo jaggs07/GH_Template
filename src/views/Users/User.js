@@ -324,68 +324,68 @@ class Tables extends Component {
 
         <div className="animated fadeIn">
 
-            <NotificationSystem ref="notificationSystem" style={notificationStyle}/>
 
             <Modal isOpen={this.state.showModal} onHide={this.closeFormModal} toggle={this.closeFormModal} className="modal-info">
                 <ModalHeader toggle={this.closeFormModal}>{this.state.formType}</ModalHeader>
                 <ModalBody>
                     <NotificationSystem ref="notificationSystem" style={notificationStyle}/>
-                <div className="form-wrapper">
+                    <div className="form-wrapper">
 
-                        <div className="form-group row">
-                            <label htmlFor="first-name-" className="col-sm-3 col-form-label">First
-                                Name</label>
-                            <div className="col-sm-9 first-name-field">
-                                <input className="form-control" required="required"
-                                       onChange={ this.handleChangeFirstName }
-                                       value={this.state.user.firstName} type="text" id="firstName"/>
-                            </div>
-                        </div>
-
-                        <div className="form-group row">
-                            <label htmlFor="last-name" className="col-sm-3 col-form-label">Last Name</label>
-                            <div className="col-sm-9 last-name-field">
-                                <input className="form-control" onChange={ this.handleChangeLastName }
-                                       value={this.state.user.lastName} type="text" id="lastName"/>
-                            </div>
-                        </div>
-
-                        <div className="form-group row">
-                            <label htmlFor="email" className="col-sm-3 col-form-label">Email
-                                </label>
-                            <div className="col-sm-9 email-field">
-                                <input className="form-control" onChange={ this.handleChangeEmail }
-                                       value={this.state.user.email} type="text" id="email"/>
-                            </div>
-                        </div>
-
-                        <div className="form-group row">
-                            <label htmlFor="linkedin-page" className="col-sm-3 col-form-label">Password
-                                </label>
-                            <div className="col-sm-9 password-field">
-                                <input className="form-control" onChange={ this.handleChangePassword }
-                                       value={this.state.user.password} type="text" id="password"/>
-                            </div>
-                        </div>
-
-                        <div className="form-group row">
-                            <label htmlFor="user-type" className="col-sm-3 col-form-label">Employer</label>
-                            <div className="col-sm-9 account-type">
-
-                                <Select.Async
-                                    name="form-field-name"
-                                    value={this.state.user.companyName}
-                                    loadOptions={this.getOptions}
-                                    onChange={this.handleChangeCompanyName}
-                                    noResultsText="No matching company..."
-                                    clearable={true}
-                                    resetValue={true}
-                                />
+                            <div className="form-group row">
+                                <label htmlFor="first-name-" className="col-sm-3 col-form-label">First
+                                    Name</label>
+                                <div className="col-sm-9 first-name-field">
+                                    <input className="form-control" required="required"
+                                        onChange={ this.handleChangeFirstName }
+                                        value={this.state.user.firstName} type="text" id="firstName"/>
+                                </div>
 
                             </div>
+
+                            <div className="form-group row">
+                                <label htmlFor="last-name" className="col-sm-3 col-form-label">Last Name</label>
+                                <div className="col-sm-9 last-name-field">
+                                    <input className="form-control" onChange={ this.handleChangeLastName }
+                                        value={this.state.user.lastName} type="text" id="lastName"/>
+                                </div>
+                            </div>
+
+                            <div className="form-group row">
+                                <label htmlFor="email" className="col-sm-3 col-form-label">Email
+                                    </label>
+                                <div className="col-sm-9 email-field">
+                                    <input className="form-control" onChange={ this.handleChangeEmail }
+                                        value={this.state.user.email} type="text" id="email"/>
+                                </div>
+                            </div>
+
+                            <div className="form-group row">
+                                <label htmlFor="linkedin-page" className="col-sm-3 col-form-label">Password
+                                    </label>
+                                <div className="col-sm-9 password-field">
+                                    <input className="form-control" onChange={ this.handleChangePassword }
+                                        value={this.state.user.password} type="text" id="password"/>
+                                </div>
+                            </div>
+
+                            <div className="form-group row">
+                                <label htmlFor="user-type" className="col-sm-3 col-form-label">Employer</label>
+                                <div className="col-sm-9 account-type">
+
+                                    <Select.Async
+                                        name="form-field-name"
+                                        value={this.state.user.companyName}
+                                        loadOptions={this.getOptions}
+                                        onChange={this.handleChangeCompanyName}
+                                        noResultsText="No matching company..."
+                                        clearable={true}
+                                        resetValue={true}
+                                    />
+
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </ModalBody>
+                    </ModalBody>
                 <ModalFooter>
                 {button}
                 <Button color="secondary" onClick={this.closeFormModal}>Cancel</Button>

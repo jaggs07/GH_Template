@@ -449,8 +449,7 @@ export function changePassword(currentPassword, newPassword, confirmPassword, id
         }
       })
       .catch((error) => {
-        console.log(error,"ERROR");
-        dispatch(changePasswordFailure(error))
+          dispatch(changePasswordFailure(error))
       });
   }
 }

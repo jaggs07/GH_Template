@@ -386,9 +386,6 @@ class Tables extends Component {
         
     return (
         <div className="animated fadeIn">
-
-            <NotificationSystem ref="notificationSystem" style={notificationStyle}/>
-
             <Modal isOpen={this.state.showModal} onHide={this.closeFormModal} toggle={this.closeFormModal} className="modal-lg modal-info modal-employer">
                 <ModalHeader toggle={this.closeFormModal}>{this.state.formType}</ModalHeader>
                 <ModalBody>
