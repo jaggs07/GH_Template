@@ -218,9 +218,13 @@ class Tables extends Component {
 
         updatedEmployer.id = this.state.employerId;
         _.merge(updatedEmployer, this.state.employer);
-
-        this.props.onUpdateEmployer(updatedEmployer, token.token);
-        this.setState({ showModal: false});
+        
+        if(updatedEmployer.companyName === ''){
+            this.displayNotification("Enter the compnay name");
+        }else{
+            this.props.onUpdateEmployer(updatedEmployer, token.token);
+            this.setState({ showModal: false});   
+        }
     }
 
     handleRefresh = (employerId) => {
@@ -382,13 +386,9 @@ class Tables extends Component {
         
     return (
         <div className="animated fadeIn">
-
-            <NotificationSystem ref="notificationSystem" style={notificationStyle}/>
-
             <Modal isOpen={this.state.showModal} onHide={this.closeFormModal} toggle={this.closeFormModal} className="modal-lg modal-info modal-employer">
                 <ModalHeader toggle={this.closeFormModal}>{this.state.formType}</ModalHeader>
                 <ModalBody>
-
                     <NotificationSystem ref="notificationSystem" style={notificationStyle}/>
 
                     <div className="form-wrapper">

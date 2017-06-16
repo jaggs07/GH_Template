@@ -339,6 +339,7 @@ class Tables extends Component {
                                         onChange={ this.handleChangeFirstName }
                                         value={this.state.user.firstName} type="text" id="firstName"/>
                                 </div>
+
                             </div>
 
                             <div className="form-group row">
